@@ -1,6 +1,10 @@
-:root {
-  --red: #D13F3F;
-}
+
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+:root {
+  --red: #D13F3F;
+  --m-gray: #BDBDBD;
+  --light-gray: #E0E0E0;
+}
 

@@ -6,6 +6,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
 }
 
 a {
@@ -19,5 +20,7 @@ a {
 
 
 .layout {
+  background-color: #F2F2F2;
   padding-top: 68px;
+  height: 100vh;
 }

@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "firebase": "^7.22.1",
     "next": "9.5.3",
+    "ramda": "^0.27.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-drag-drawer": "^3.3.4",
     "react-feather": "^2.0.8",
     "sass": "^1.26.12"
   }

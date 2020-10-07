@@ -28,14 +28,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const  {title = '菜單規劃', actionCb} = this.props;
+    const  {title = '菜單規劃', onSubmit} = this.props;
     return (
       <div className="app-header">
         <div className="container">
           <div className="row d-flex align-items-center">
             <div className="col-4 text-left"><Menu color="var(--red)" onClick={this.openMenu}/></div>
             <div className="col-4 text-center"><h2 className="title">{title}</h2></div>
-            <div className="col-4 text-right"><button type="button" className="btn btn-link px-0" onClick={actionCb}>下一步</button></div>
+            <div className="col-4 text-right"><button type="button" className="btn btn-link px-0" onClick={onSubmit}>下一步</button></div>
           </div>
         </div>
         <div className={`sidebar ${this.state.menuIsOpen ? '-active' : ''}`}>
@@ -52,7 +52,7 @@ class Header extends React.Component {
             <ul className="menu">
               {
                 menuItems.map((item, i) => (
-                  <li className="item">
+                  <li className="item" key={item.name}>
                     <item.icon color="var(--red)"/> {item.name}
                   </li>
                 ))
