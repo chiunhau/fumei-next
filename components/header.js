@@ -1,10 +1,12 @@
 import React from 'react';
+import Link from 'next/link'
 import { Menu, X, Edit3, BookOpen, Users } from 'react-feather';
 
 const menuItems = [
-  { name: '新增菜單', icon: Edit3 },
-  { name: '管理菜單', icon: BookOpen },
-  { name: '帳號管理', icon: Users}
+  { name: '新增菜單', path: '/create', icon: Edit3 },
+  { name: '管理菜單', path: '/manage', icon: BookOpen },
+  { name: '檢視分類', path: '/categories', icon: BookOpen},
+  { name: '帳號管理', path: '/account', icon: Users}
 ]
 
 class Header extends React.Component {
@@ -53,7 +55,9 @@ class Header extends React.Component {
               {
                 menuItems.map((item, i) => (
                   <li className="item" key={item.name}>
-                    <item.icon color="var(--red)"/> {item.name}
+                    <Link href={item.path}>
+                      <a onClick={this.closeMenu}><item.icon color="var(--red)"/> {item.name}</a>
+                    </Link>
                   </li>
                 ))
               }

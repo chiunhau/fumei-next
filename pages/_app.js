@@ -4,14 +4,21 @@ import '../styles/index.scss';
 import '../styles/header.scss';
 import '../styles/dishCard.scss';
 import '../styles/dishTemplate.scss';
+import { Provider } from 'react-redux';
 import Header from '../components/header';
+import store from '../store'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps}) {
   return (
-    <div className="layout">
-      <Component {...pageProps} />
-    </div>
+    <Provider store={store}>
+      <div className="layout">
+        <Header/>
+        <Component {...pageProps} />
+      </div>
+    </Provider>
+    
   )
 }
+
 
 export default MyApp

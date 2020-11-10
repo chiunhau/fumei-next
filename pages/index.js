@@ -3,6 +3,8 @@ import Header from '../components/header';
 import DishTemplate from '../components/dishTemplate';
 import DishDrawer from '../components/dishDrawer';
 import firebase from '../firebase';
+import {connect} from 'react-redux';
+import { fetchData } from '../actions/fetchActions';
 
 const db = firebase.database();
 
@@ -90,13 +92,11 @@ class Index extends React.Component {
   componentDidMount() {
     db.ref('/categories').once('value').then(snapshot => console.log(snapshot.val()))
     db.ref('/templates/0').once('value').then(snapshot => console.log(snapshot.val()))
+    this.props.fetchCategories();
   }
   render() {
     return (
       <div className="page-index">
-        <Header 
-          onSubmit={this.onSubmit}
-        />
         <div className="container">
           <DishTemplate 
             data={this.state.templateData}
@@ -114,4 +114,18 @@ class Index extends React.Component {
     )
   }
 }
-export default Index
+
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchCategories: config => {
+    dispatch(fetchData({
+      path: '/categories',
+      id: '/categories'
+    }))
+  }
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
