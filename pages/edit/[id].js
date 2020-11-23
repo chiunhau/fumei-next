@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
-import { fetchData, updateData, pushData } from '../actions/fetchActions';
-import Template from '../components/Template';
+import { fetchData, updateData } from '../../actions/fetchActions';
+import Template from '../../components/Template';
 import * as R from 'ramda';
 
-function Create(props) {
+function Edit(props) {
   const router = useRouter()
   useEffect(() => {
-    props.fetchCategories();
-    props.fetchAllDishes();
-    props.fetchEmptyTemplate();
+    if(router && router.query && router.query.id) {
+      console.log(router.query)
+      props.fetchCategories();
+      props.fetchAllDishes();
+      props.fetchTemplate(router.query.id);
+    }
     
-  }, [])
+  }, [router])
 
   return (
     <div className="page-create">
@@ -30,8 +33,7 @@ function Create(props) {
               allDishesNames={props.allDishesNames}
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data)}
-              mode="CREATE"
+              handleSubmit={(data) => props.updateTemplate(router.query.id, data)}
             />
           </div>
       }
@@ -41,7 +43,8 @@ function Create(props) {
 
 const mapStateToProps = (state, ownProps) => ({
   categories: state.data['/categories'],
-  currentTemplate: state.data[`/default_template`],
+  template: state.template,
+  currentTemplate: state.data[`/templates/${ownProps.router.query.id}`],
   allDishesNames: state.data['/categories_dishes']
 });
 
@@ -60,10 +63,11 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  fetchEmptyTemplate: () => {
+  fetchTemplate: (id) => {
     dispatch(fetchData({
-      path: `/default_template`,
-      id: `/default_template`,
+      path: `/templates/${id}`,
+      id: `/templates/${id}`,
+      forceFetch: true
     }))
   },
 
@@ -74,14 +78,6 @@ const mapDispatchToProps = (dispatch) => ({
       cb: () => alert('儲存成功')
     }))
   },
-
-  pushTemplate: (id, data) => {
-    dispatch(pushData({
-      path: `/templates`,
-      data,
-      cb: () => alert('新增成功')
-    }))
-  }
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Create))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Edit))

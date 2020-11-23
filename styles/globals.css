@@ -18,9 +18,29 @@ a {
   box-sizing: border-box;
 }
 
+/* .button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-color: var(--red);
+
+} */
+
 
 .layout {
   background-color: #F2F2F2;
-  padding-top: 68px;
-  height: 100vh;
+  padding-top: 48px;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.no-touch-scroll {
+  touch-action: none;
+  overflow: hidden;
+}
+
+.page-title {
+  background-color: var(--red);
+  font-size: 1.1em;
+  color: #fff;
+  padding: 8px;
 }

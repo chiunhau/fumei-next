@@ -2,17 +2,61 @@ import firebase from '../firebase';
 const db = firebase.database();
 
 const requestData = (config) => {
-  console.log('Requesting: ', config)
+  console.log('GET Requesting: ', config)
   return {
     type: 'REQUEST_DATA',
     config
   }
 }
 
+const requestUpdate = (config) => {
+  console.log('UPDATE Requesting: ', config)
+  return {
+    type: 'REQUEST_UPDATE',
+    config
+  }
+}
+
+const requestPush = (config) => {
+  console.log('PUSH Requesting: ', config)
+  return {
+    type: 'REQUEST_PUSH',
+    config
+  }
+}
+
+
 const receiveData = (config, response) => {
-  console.log('Successed: ', config, ', with response: ', response)
+  console.log('GET Successed: ', config, ', with response: ', response)
+  if (config.cb) {
+    config.cb()
+  }
   return {
     type: 'RECEIVE_DATA',
+    data: response,
+    config
+  }
+}
+
+const receiveUpdate = (config, response) => {
+  console.log('UPDATE Successed: ', config, ', with response: ', response)
+  if (config.cb) {
+    config.cb()
+  }
+  return {
+    type: 'RECEIVE_UPDATE',
+    data: response,
+    config
+  }
+}
+
+const receivePush = (config, response) => {
+  console.log('PUSH Successed: ', config, ', with response: ', response)
+  if (config.cb) {
+    config.cb()
+  }
+  return {
+    type: 'RECEIVE_PUSH',
     data: response,
     config
   }
@@ -42,12 +86,31 @@ const shouldFetchData = (state, config) => {
 
 export const fetchData = (config) => {
   return (dispatch, getState) => {
-    if (shouldFetchData(getState(), config)) {
+    if (config.forceFetch || shouldFetchData(getState(), config)) {
       dispatch(requestData(config))
       return db.ref(config.path).once('value').then(snapshot => {
         dispatch(receiveData(config, snapshot.val()))
       })
 
     }
+  }
+}
+
+export const updateData = (config) => {
+  return (dispatch, getState) => {
+    dispatch(requestUpdate(config))
+    return db.ref(config.path).set(config.data).then(snapshot => {
+      dispatch(receiveUpdate(config, 'ok'))
+    }).catch(e => alert(e))
+
+  }
+}
+
+export const pushData = (config) => {
+  return (dispatch, getState) => {
+    dispatch(requestPush(config))
+    return db.ref(config.path).push(config.data).then(snapshot => {
+      dispatch(receivePush(config, 'ok'))
+    }).catch(e => alert(e))
   }
 }

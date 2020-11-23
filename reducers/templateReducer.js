@@ -1,13 +1,16 @@
-const initialState = {
-  templateType: ''
-}
+const initialState = {}
 
 const templateReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'TEST':
-      return {...state, test: action.payload}
+    case 'LOAD_TEMPLATE':
+      return {...action.payload}
+
+    case 'CLEAR_TEMPLATE':
+      return {}
+
     case 'REMOVE_DISH': 
-    return {...state, test: action.payload}
+      return {...state, test: action.payload}
+
     default:
       return state
   }

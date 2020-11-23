@@ -6,14 +6,14 @@ function Card(props) {
       return (
         <div className="dish-card">
           <span className="name">{props.dishName}</span>
-          <X color="gray" />
+          <X color="var(--red)" size="20px" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 
     case 'EMPTY':
       return (
-        <div className="dish-card -empty" onClick={props.handleAdd}>
-          <Plus color="var(--red)"/>
+        <div className="dish-card -empty" onClick={props.cb}>
+          <Plus color="var(--gray)"/>
         </div>
       )
 
@@ -21,14 +21,14 @@ function Card(props) {
       return (
         <div className="dish-card -add">
           <span className="name">{props.dishName}</span>
-          <button type="button" className="btn btn-link px-0" onClick={props.actionCb}>加入</button>
+          <button type="button" className="btn btn-link px-0" onClick={() => props.cb(props.categoryID, props.dishID)}>加入</button>
         </div>
       )
   
     default:
       return (
         <div className="dish-card -empty">
-          <Plus color="var(--red)"/>
+          <Plus color="var(--gray)"/>
         </div>
       )
   }
