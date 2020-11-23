@@ -30,14 +30,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const  {title = '富美配菜系統', onSubmit} = this.props;
+    const  {title = '管理菜單', onSubmit} = this.props;
     return (
       <div className="app-header">
         <div className="container">
           <div className="row d-flex align-items-center">
-            <div className="col-2 text-left"><Menu color="var(--red)" onClick={this.openMenu}/></div>
+            <div className="col-2 text-left"><Menu color="var(--red)" size="1.5rem" onClick={this.openMenu}/></div>
             <div className="col-8 text-center"><h2 className="title">{title}</h2></div>
-            <div className="col-2 text-right"><Link href="/create"><a><Plus color="var(--red)" size={24}/></a></Link></div>
+            <div className="col-2 text-right"><Link href="/create"><a><Plus color="var(--red)" size="1.5rem"/></a></Link></div>
           </div>
         </div>
         <div className={`sidebar ${this.state.menuIsOpen ? '-active' : ''}`}>
@@ -49,7 +49,7 @@ class Header extends React.Component {
           <div className="element container">
             <div className="header  d-flex align-items-center justify-content-between">
               <h1 className="title">富美海鮮配菜系統</h1>
-              <X color="var(--red)" onClick={this.closeMenu} className="close"/>
+              <X color="var(--red)"　size="1.5rem" onClick={this.closeMenu} className="icon-close"/>
             </div>
             <ul className="menu">
               {

@@ -6,7 +6,7 @@ function Card(props) {
       return (
         <div className="dish-card">
           <span className="name">{props.dishName}</span>
-          <X color="var(--red)" size="20px" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
+          <X color="var(--gray)" size="1.4rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 
@@ -21,7 +21,7 @@ function Card(props) {
     case 'EMPTY':
       return (
         <div className="dish-card -empty" onClick={props.cb}>
-          <Plus color="var(--gray)"/>
+          <Plus color="var(--red)" size="1.4rem"/>
         </div>
       )
 

@@ -8,7 +8,6 @@
 
     > .category {
       padding: 8px 0;
-      font-weight: 500;
       // border-bottom: 1px solid var(--light-gray);
       display: flex;
       align-items: center;
@@ -34,6 +33,7 @@
           font-size: 1.1rem;
           color: var(--gray);
           // margin-left: 8px;
+          font-weight: normal;
           margin: 0;
         }
       }
