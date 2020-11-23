@@ -76,9 +76,17 @@ function Template(props) {
 
   return (
     <div className="dish-template">
-      <TemplateHeader/>
+
+      {
+        props.type !== 'VIEW' &&
+        <TemplateHeader templateID={props.templateID} type={props.type}/>
+      }
+      
       <h3>
-        <EdiText
+
+        {
+          props.type !== 'VIEW' ?
+          <EdiText
           type="text"
           value={templateState.name}
           onSave={handleSaveTemplateName}
@@ -95,6 +103,10 @@ function Template(props) {
           saveButtonClassName="btn btn-outline-success"
           cancelButtonClassName="btn btn-outline-danger"
         />
+        : templateState.name
+
+        }
+        
       </h3>
       <ul className="categories">
         {
@@ -114,7 +126,7 @@ function Template(props) {
                   <Card 
                   dishID={dish}
                   dishName={R.path([category.category_id, 'dishes', dish, 'name'], props.allDishesNames)}
-                  type="NORMAL"
+                  type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                   categoryID={category.category_id}
                   key={`${category.category_id}_${dish}`}
                   removeDish={() => removeDish(category.category_id, j)}
@@ -122,7 +134,7 @@ function Template(props) {
                 ), category.dishes)
                 :
                 <Card 
-                  type="EMPTY"
+                  type={`${props.type === 'VIEW' ? 'VIEW_EMPTY' : 'EMPTY'}`}
                   categoryID={category.category_id}
                   key={`${category.category_id}_EMPTY`}
                   cb={() => openDrawer(category.category_id)}
@@ -144,7 +156,18 @@ function Template(props) {
         }
       </ul>
       <hr/>
-      <button className="btn btn-success btn-block save-template" onClick={submit}>儲存</button>
+      {
+        props.type !== 'VIEW' &&
+        <button className="btn btn-success btn-block save-template" onClick={submit}>
+          {
+            props.type === 'CREATE' ?
+            '新增'
+            :
+            '儲存'
+          }
+        </button>
+      }
+      
     </div>
   )
 }

@@ -53,7 +53,7 @@ const receiveUpdate = (config, response) => {
 const receivePush = (config, response) => {
   console.log('PUSH Successed: ', config, ', with response: ', response)
   if (config.cb) {
-    config.cb()
+    config.cb(response)
   }
   return {
     type: 'RECEIVE_PUSH',
@@ -109,8 +109,9 @@ export const updateData = (config) => {
 export const pushData = (config) => {
   return (dispatch, getState) => {
     dispatch(requestPush(config))
-    return db.ref(config.path).push(config.data).then(snapshot => {
-      dispatch(receivePush(config, 'ok'))
+    return db.ref(config.path).push(config.data).then(res => {
+      // console.log(res.path.pieces_[1])
+      dispatch(receivePush(config, res))
     }).catch(e => alert(e))
   }
 }

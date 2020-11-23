@@ -25,8 +25,11 @@ function Create(props) {
               allDishesNames={props.allDishesNames}
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data)}
-              mode="CREATE"
+              handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data, (res) => {
+                alert('新增成功');
+                router.push(`/edit/${res.path.pieces_[1]}`) //DANGEROUS
+              })}
+              type="CREATE"
             />
           </div>
       }
@@ -70,11 +73,11 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  pushTemplate: (id, data) => {
+  pushTemplate: (id, data, cb) => {
     dispatch(pushData({
       path: `/templates`,
-      data,
-      cb: () => alert('新增成功')
+      data: {...data, date: new Date().toLocaleDateString()},
+      cb
     }))
   }
 })

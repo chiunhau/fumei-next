@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { fetchData } from '../actions/fetchActions';
-import {Edit3 } from 'react-feather';
+import {Edit3, Search } from 'react-feather';
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Header from '../components/header';
@@ -37,7 +37,11 @@ function Manage(props) {
                     <h4 className="title">{template.name}</h4>
                     <span className="date">{template.date}</span>
                   </div>
-                  <Link href={`/edit/${key}`}><a> <Edit3 color="var(--gray)"/></a></Link>
+                  <div className="actions">
+                    {/* <Search color="var(--red)"/> */}
+                    <Link href={`/edit/${key}`}><a> <Edit3 color="var(--red)"/></a></Link>
+                  </div>
+                  
                 </div>
               )
             })

@@ -10,12 +10,27 @@ function Card(props) {
         </div>
       )
 
+    case 'VIEW':
+      return (
+        <div className="dish-card">
+          <span className="name">{props.dishName}</span>
+          {/* <X color="var(--red)" size="20px" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/> */}
+        </div>
+      )
+
     case 'EMPTY':
       return (
         <div className="dish-card -empty" onClick={props.cb}>
           <Plus color="var(--gray)"/>
         </div>
       )
+
+      case 'VIEW_EMPTY':
+        return (
+          <div className="dish-card -view-empty" onClick={props.cb}>
+            (無)
+          </div>
+        )
 
     case 'ADD':
       return (

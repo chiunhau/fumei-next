@@ -5,7 +5,7 @@ import { fetchData, updateData } from '../../actions/fetchActions';
 import Template from '../../components/template';
 import * as R from 'ramda';
 
-function Edit(props) {
+function View(props) {
   const router = useRouter()
   useEffect(() => {
     if(router && router.query && router.query.id) {
@@ -18,7 +18,8 @@ function Edit(props) {
   }, [router])
 
   return (
-    <div className="page-create">      
+    <div className="page-create">
+
       {
           props.currentTemplate &&
           <div className="container">
@@ -29,7 +30,7 @@ function Edit(props) {
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
               handleSubmit={(data) => props.updateTemplate(router.query.id, data)}
-              templateID={router.query.id}
+              type="VIEW"
             />
           </div>
       }
@@ -76,4 +77,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Edit))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(View))
