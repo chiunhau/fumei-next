@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { fetchData } from '../actions/fetchActions';
-import Template from '../components/Template';
+import Template from '../components/template';
+import EdiText from 'react-editext'
 import * as R from 'ramda';
 
 function Edit(props) {
@@ -20,7 +21,7 @@ function Edit(props) {
       {
           props.template &&
           <div className="container">
-            {props.template.name}
+            {/* {props.template.name} */}
             <Template 
               categoriesDishes={props.template.categories_dishes}
               categories={props.categories}

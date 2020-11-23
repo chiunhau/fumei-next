@@ -3,7 +3,10 @@ import Card from './card';
 import Drawer from './drawer';
 import * as R from 'ramda';
 import { useEffect, useState } from 'react'
+import EdiText from 'react-editext'
 import categories from '../pages/categories';
+import {Check, Edit2, X } from 'react-feather';
+import TemplateHeader from './templateHeader'
 const indexMap = R.addIndex(R.map);
 
 
@@ -57,6 +60,13 @@ function Template(props) {
     console.log(templateState)
   }
 
+  const handleSaveTemplateName = (val) => {
+    setTemplateState({
+      ...templateState,
+      name: val
+    })
+  }
+
 
   useEffect(() => {
     console.log('init template states')
@@ -66,6 +76,26 @@ function Template(props) {
 
   return (
     <div className="dish-template">
+      <TemplateHeader/>
+      <h3>
+        <EdiText
+          type="text"
+          value={templateState.name}
+          onSave={handleSaveTemplateName}
+          editOnViewClick={true}
+          // submitOnUnfocus={true}
+          hideIcons={true}
+          submitOnEnter={true}
+          mainContainerClassName="ediTextContainer"
+          editContainerClassName="ediTextEditContainer"
+          editButtonContent={<Edit2/>}
+          saveButtonContent={<Check/>}
+          cancelButtonContent={<X/>}
+          editButtonClassName="btn"
+          saveButtonClassName="btn btn-outline-success"
+          cancelButtonClassName="btn btn-outline-danger"
+        />
+      </h3>
       <ul className="categories">
         {
           templateState.categories_dishes &&

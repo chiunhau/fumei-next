@@ -4,6 +4,7 @@ import { fetchData } from '../actions/fetchActions';
 import {Edit3 } from 'react-feather';
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Header from '../components/header';
 
 import * as R from 'ramda';
 
@@ -20,24 +21,12 @@ function Manage(props) {
   }
 
   return (
-    <div className="page-manage">
+    <div className="layout">
+      <Header/>
+      <div className="page-manage">
       {
         props.templates &&
         <div className="container">
-          <hr/>
-          {/* {
-            R.map((template) => (
-              <div className="template-entry">
-                <div className="info">
-                  <h4 className="title">{template.name}</h4>
-                  <span className="date">{template.date}</span>
-                </div>
-                <Link href={`/edit/${template.id}`}><a> <Edit3 color="var(--red)"/></a></Link>
-               
-              </div>
-            ), props.templates)
-          } */}
-
           {
             Object.keys(props.templates).map((key, i) => {
               const template = props.templates[key];
@@ -48,13 +37,14 @@ function Manage(props) {
                     <h4 className="title">{template.name}</h4>
                     <span className="date">{template.date}</span>
                   </div>
-                  <Link href={`/edit/${key}`}><a> <Edit3 color="var(--red)"/></a></Link>
+                  <Link href={`/edit/${key}`}><a> <Edit3 color="var(--gray)"/></a></Link>
                 </div>
               )
             })
           }
         </div>
       }
+    </div>
     </div>
   )
 }

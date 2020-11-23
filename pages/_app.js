@@ -13,9 +13,8 @@ function MyApp({ Component, pageProps}) {
   return (
     <Provider store={store}>
       <div className="layout">
-        <Header/>
         <Component {...pageProps} />
-      </div>
+      </div>  
     </Provider>
     
   )

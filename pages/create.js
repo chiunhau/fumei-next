@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, pushData } from '../actions/fetchActions';
-import Template from '../components/Template';
+import Template from '../components/template';
 import * as R from 'ramda';
 
 function Create(props) {
@@ -16,11 +16,6 @@ function Create(props) {
 
   return (
     <div className="page-create">
-      {
-        props.currentTemplate &&
-        <h3 className="page-title">正在編輯：{props.currentTemplate.name}</h3>
-      }
-      
       {
           props.currentTemplate &&
           <div className="container">

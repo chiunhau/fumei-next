@@ -16,6 +16,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-drag-drawer": "^3.3.4",
+    "react-editext": "^3.17.1",
     "react-feather": "^2.0.8",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",

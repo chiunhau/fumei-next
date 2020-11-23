@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link'
-import { Menu, X, Edit3, BookOpen, Users } from 'react-feather';
+import { Menu, X, Edit3, BookOpen, Users, Plus } from 'react-feather';
 
 const menuItems = [
   { name: '新增菜單', path: '/create', icon: Edit3 },
@@ -30,14 +30,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const  {title = '富美配菜', onSubmit} = this.props;
+    const  {title = '富美配菜系統', onSubmit} = this.props;
     return (
       <div className="app-header">
         <div className="container">
           <div className="row d-flex align-items-center">
-            <div className="col-4 text-left"><Menu color="var(--red)" onClick={this.openMenu}/></div>
-            <div className="col-4 text-center"><h2 className="title">{title}</h2></div>
-            {/* <div className="col-4 text-right"><button type="button" className="btn btn-link px-0" onClick={onSubmit}>下一步</button></div> */}
+            <div className="col-2 text-left"><Menu color="var(--red)" onClick={this.openMenu}/></div>
+            <div className="col-8 text-center"><h2 className="title">{title}</h2></div>
+            <div className="col-2 text-right"><Link href="/create"><a><Plus color="var(--red)" size={24}/></a></Link></div>
           </div>
         </div>
         <div className={`sidebar ${this.state.menuIsOpen ? '-active' : ''}`}>

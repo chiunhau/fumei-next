@@ -28,10 +28,12 @@ a {
 
 .layout {
   background-color: #F2F2F2;
-  padding-top: 48px;
+  padding-top: 32px;
   min-height: 100vh;
   height: 100%;
 }
+
+
 
 .no-touch-scroll {
   touch-action: none;
@@ -43,4 +45,13 @@ a {
   font-size: 1.1em;
   color: #fff;
   padding: 8px;
+}
+
+.ediTextContainer button{
+  /* display: none; */
+  padding: 0;
+}
+
+.ediTextEditContainer input{
+  padding: 0 !important;
 }
