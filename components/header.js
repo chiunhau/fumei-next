@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Menu, X, Edit3, BookOpen, Users, Plus } from 'react-feather';
 
 const menuItems = [
-  { name: '新增菜單', path: '/create', icon: Edit3 },
+  { name: '建立菜單', path: '/create', icon: Edit3 },
   { name: '管理菜單', path: '/index', icon: BookOpen },
   // { name: '檢視分類', path: '/categories', icon: BookOpen},
   // { name: '帳號管理', path: '/account', icon: Users}
@@ -35,9 +35,9 @@ class Header extends React.Component {
       <div className="app-header">
         <div className="container">
           <div className="row d-flex align-items-center">
-            <div className="col-2 text-left"><Menu color="var(--red)" size="1.5rem" onClick={this.openMenu}/></div>
+            <div className="col-2 text-left clickable"><Menu color="var(--red)" size="1.5rem" onClick={this.openMenu}/></div>
             <div className="col-8 text-center"><h2 className="title">{title}</h2></div>
-            <div className="col-2 text-right"><Link href="/create"><a><Plus color="var(--red)" size="1.5rem"/></a></Link></div>
+            <div className="col-2 text-right clickable"><Link href="/create"><a><Plus color="var(--red)" size="1.5rem"/></a></Link></div>
           </div>
         </div>
         <div className={`sidebar ${this.state.menuIsOpen ? '-active' : ''}`}>

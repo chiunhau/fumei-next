@@ -1,15 +1,19 @@
 .dish-template {
-  padding-bottom: 60px;
+  padding-bottom: 100px;
   .categories {
     margin: 0;
     padding: 0;
     list-style: none;
 
     > .category {
-      padding: 8px 0;
-      // border-bottom: 1px solid var(--light-gray);
+      padding: 20px 0;
+      border-bottom: 1px solid var(--light-gray);
       display: flex;
       align-items: center;
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       > .header {
         // margin-bottom: 10px;
@@ -37,13 +41,22 @@
         }
       }
 
-      > .dish-card {
-        margin-bottom: 12px;
+      > .cards {
+        width: 100%;
+        font-size: 0;
+        line-height: 0;
+        text-align: right;
+        > .dish-card {
+          margin-bottom: 12px;
 
-        &:last-child {
-          margin-bottom: 0;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
       }
+
+      
     }
   }
 }
@@ -127,9 +140,16 @@
 }
 
 .save-template {
+}
+
+.fixed-bottom {
+  background-color: #fff;
+  padding: 12px;
   position: fixed;
   bottom: 0;
   left: 0;
   border-radius: 0;
-  height: 44px;
+
+  button {
+  }
 }

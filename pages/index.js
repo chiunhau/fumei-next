@@ -35,14 +35,14 @@ function Manage(props) {
               const template = props.templates[key];
 
               return (
-                <div className="template-entry">
+                <div className="template-entry" onClick={() => router.push(`/edit/${key}`)}>
                   <div className="info">
                     <h4 className="title">{template.name}</h4>
                     <span className="date">{template.date}</span>
                   </div>
                   <div className="actions">
                     {/* <Search color="var(--red)"/> */}
-                    <Link href={`/edit/${key}`}><a> <Edit3 color="var(--red)"/></a></Link>
+                    <Edit3 color="var(--red)"/>
                   </div>
                   
                 </div>

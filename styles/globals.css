@@ -69,3 +69,7 @@ a {
     font-size: 20px;
   }
 }
+
+.clickable:hover {
+  cursor: pointer;
+}

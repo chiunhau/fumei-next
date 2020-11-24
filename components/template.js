@@ -47,7 +47,8 @@ function Template(props) {
 
   const addDish = (catID, dishID) => {
     const lens = R.lensPath([catID, 'dishes'])
-    const updated = R.set(lens, [dishID], templateState.categories_dishes)
+    const appendDish = R.append(dishID, R.view(lens, templateState.categories_dishes))
+    const updated = R.set(lens, appendDish, templateState.categories_dishes)
     console.log(updated)
     setTemplateState({
       ...templateState,
@@ -126,6 +127,7 @@ function Template(props) {
                 {/* <span className="number">{i + 1}</span> */}
                 <h4 className="name">{props.categories[i]}</h4>
               </div>
+              <div className="cards">
               {
                 category.dishes &&
                 category.dishes.length > 0 ?
@@ -147,6 +149,18 @@ function Template(props) {
                   cb={() => openDrawer(category.category_id)}
                 />
               }
+              {
+                category.dishes &&
+                category.dishes.length > 0 &&
+                props.type !== 'VIEW' &&
+                <Card 
+                  type={`${props.type === 'VIEW' ? 'VIEW_MORE' : 'MORE'}`}
+                  categoryID={category.category_id}
+                  key={`${category.category_id}_MORE`}
+                  cb={() => openDrawer(category.category_id)}
+                />
+              }
+              </div>
             </li>
           ), templateState.categories_dishes)
         }
@@ -169,14 +183,19 @@ function Template(props) {
       }
       {
         props.type !== 'VIEW' &&
-        <button className="btn btn-success btn-block save-template" onClick={submit}>
-          {
-            props.type === 'CREATE' ?
-            '新增'
-            :
-            '儲存'
-          }
-        </button>
+        <div className="fixed-bottom">
+          <div className="container">
+            <button className="btn btn-success btn-block save-template" onClick={submit}>
+              {
+                props.type === 'CREATE' ?
+                '儲存'
+                :
+                '儲存'
+              }
+            </button>
+          </div>
+        
+        </div>
       }
       
     </div>

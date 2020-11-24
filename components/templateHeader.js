@@ -22,7 +22,7 @@ function TemplateHeader(props) {
                   props.type !== 'CREATE' ?
                   '編輯菜單'
                   :
-                  '新增菜單'
+                  '建立菜單'
                 }
                 
               </h2>
