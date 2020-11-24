@@ -1,41 +1,79 @@
-import Head from 'next/head'
-import Header from '../components/header';
-import DishTemplate from '../components/dishTemplate';
-import DishDrawer from '../components/dishDrawer';
-import firebase from '../firebase';
-import {connect} from 'react-redux';
+import { useEffect } from 'react'
+import { connect } from 'react-redux';
 import { fetchData } from '../actions/fetchActions';
+import {Edit3, Search } from 'react-feather';
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Header from '../components/header';
+import Head from 'next/head'
 
-const db = firebase.database();
+import * as R from 'ramda';
 
-const R = require('ramda');
+function Manage(props) {
+  useEffect(() => {
+    props.fetchAllTemplates();
+  }, [])
 
+  const router = useRouter();
 
-
-
-class Index extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-
-    }
+  const handleClickEdit = (template) => {
+    props.loadTemplate(template)
+    router.push('/edit')
   }
+  return (
+    <div className="">
+      {/* <Head>
+        <title>富美配菜系統</title>
+      </Head> */}
+      <Header/>
+      <div className="page-manage">
+      {
+        props.templates &&
+        <div className="container">
+          {
+            Object.keys(props.templates).map((key, i) => {
+              const template = props.templates[key];
 
-  render() {
-    return (
-      <div className="page-index">
-        
-      </div>
-    )
-  }
+              return (
+                <div className="template-entry">
+                  <div className="info">
+                    <h4 className="title">{template.name}</h4>
+                    <span className="date">{template.date}</span>
+                  </div>
+                  <div className="actions">
+                    {/* <Search color="var(--red)"/> */}
+                    <Link href={`/edit/${key}`}><a> <Edit3 color="var(--red)"/></a></Link>
+                  </div>
+                  
+                </div>
+              )
+            })
+          }
+        </div>
+      }
+    </div>
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({
+  templates: state.data['/templates'],
 });
 
 const mapDispatchToProps = dispatch => ({
-
+  loadTemplate: (template) => {
+    dispatch({
+      type: 'LOAD_TEMPLATE',
+      payload: template
+    })
+  },
+  fetchAllTemplates: config => {
+    dispatch(fetchData({
+      path: '/templates',
+      id: '/templates',
+      forceFetch: true
+    }))
+  }
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(Manage)

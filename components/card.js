@@ -34,9 +34,9 @@ function Card(props) {
 
     case 'ADD':
       return (
-        <div className="dish-card -add">
+        <div className="dish-card -add"  onClick={() => props.cb(props.categoryID, props.dishID)}>
           <span className="name">{props.dishName}</span>
-          <button type="button" className="btn btn-link px-0" onClick={() => props.cb(props.categoryID, props.dishID)}>加入</button>
+          <button type="button" className="btn btn-link px-0"><Plus color="var(--red)" size="1.4rem"/></button>
         </div>
       )
   

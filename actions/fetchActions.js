@@ -25,6 +25,14 @@ const requestPush = (config) => {
   }
 }
 
+const requestDelete = (config) => {
+  console.log('DELETE Requesting: ', config)
+  return {
+    type: 'REQUEST_DELETE',
+    config
+  }
+}
+
 
 const receiveData = (config, response) => {
   console.log('GET Successed: ', config, ', with response: ', response)
@@ -57,6 +65,18 @@ const receivePush = (config, response) => {
   }
   return {
     type: 'RECEIVE_PUSH',
+    data: response,
+    config
+  }
+}
+
+const receiveDelete = (config, response) => {
+  console.log('DELETESuccessed: ', config, ', with response: ', response)
+  if (config.cb) {
+    config.cb(response)
+  }
+  return {
+    type: 'RECEIVE_DELETE',
     data: response,
     config
   }
@@ -113,5 +133,15 @@ export const pushData = (config) => {
       // console.log(res.path.pieces_[1])
       dispatch(receivePush(config, res))
     }).catch(e => alert(e))
+  }
+}
+
+export const deleteData = (config) => {
+  return (dispatch, getState) => {
+    dispatch(requestDelete(config))
+    return db.ref(config.path).remove().then(snapshot => {
+      dispatch(receiveDelete(config, 'deleted'))
+    }).catch(e => alert(e))
+
   }
 }

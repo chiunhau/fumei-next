@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
-import { fetchData, updateData } from '../../actions/fetchActions';
+import { fetchData, updateData, deleteData } from '../../actions/fetchActions';
 import Template from '../../components/template';
-import * as R from 'ramda';
 
 function Edit(props) {
   const router = useRouter()
+
+
   useEffect(() => {
     if(router && router.query && router.query.id) {
       console.log(router.query)
@@ -28,9 +29,16 @@ function Edit(props) {
               allDishesNames={props.allDishesNames}
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.updateTemplate(router.query.id, data)}
+              handleSubmit={(data) => props.updateTemplate(router.query.id, data, () => {
+                alert('儲存成功');
+              })}
               templateID={router.query.id}
+              handleDelete={() => props.deleteTemplate(router.query.id, () => {
+                alert('已刪除');
+                router.push('/');
+              })}
             />
+        
           </div>
       }
     </div>
@@ -67,11 +75,18 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  updateTemplate: (id, data) => {
+  updateTemplate: (id, data, cb) => {
     dispatch(updateData({
       path: `/templates/${id}`,
       data,
-      cb: () => alert('儲存成功')
+      cb
+    }))
+  },
+
+  deleteTemplate: (id, cb) => {
+    dispatch(deleteData({
+      path: `/templates/${id}`,
+      cb
     }))
   },
 })

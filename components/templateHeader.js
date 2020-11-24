@@ -8,20 +8,15 @@ function TemplateHeader(props) {
 
   const handleClickBack = (e) => {
     e.preventDefault()
-    router.push('/manage')
-  }
-
-  const handleClickExport = (e) => {
-    e.preventDefault()
-    router.push('/manage')
+    router.push('/')
   }
 
   return (
     <div className="template-header">
         <div className="container">
           <div className="row d-flex align-items-center">
-            <div onClick={handleClickBack} className="col-3 text-left" style={{color: 'var(--red)', display: 'flex'}}><ChevronLeft color="var(--red)" size="1.5rem"/><span>返回</span></div>
-            <div className="col-6 text-center">
+            <div onClick={handleClickBack} className="col-4 text-left" ><button className="btn" style={{color: 'var(--red)', display: 'inline-flex', padding: '0', fontSize: '1.1rem'}}><ChevronLeft color="var(--red)" size="1.5rem"/><span>返回</span></button></div>
+            <div className="col-4 text-center">
               <h2 className="title">
                 {
                   props.type !== 'CREATE' ?
@@ -34,7 +29,7 @@ function TemplateHeader(props) {
             </div>
             {
               props.type !== 'CREATE' &&
-              <div className="col-3 text-right"><a href={`/view/${props.templateID}`} target="_blank"><Share size="1.5rem"/></a></div>
+              <div className="col-4 text-right"><a href={`/view/${props.templateID}`} target="_blank"><Share size="1.5rem"/></a></div>
             }
             
           </div>

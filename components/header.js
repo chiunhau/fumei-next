@@ -4,7 +4,7 @@ import { Menu, X, Edit3, BookOpen, Users, Plus } from 'react-feather';
 
 const menuItems = [
   { name: '新增菜單', path: '/create', icon: Edit3 },
-  { name: '管理菜單', path: '/manage', icon: BookOpen },
+  { name: '管理菜單', path: '/index', icon: BookOpen },
   // { name: '檢視分類', path: '/categories', icon: BookOpen},
   // { name: '帳號管理', path: '/account', icon: Users}
 ]

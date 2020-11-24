@@ -67,6 +67,13 @@ function Template(props) {
     })
   }
 
+  const confirmDelete = () => {
+    var yes = confirm('確定要刪除嗎？');
+    if (yes) {
+      props.handleDelete()
+    }
+  }
+
 
   useEffect(() => {
     console.log('init template states')
@@ -156,6 +163,10 @@ function Template(props) {
         }
       </ul>
       <hr/>
+      {
+        props.type !== 'VIEW' && props.type !== 'CREATE' &&
+        <button className="btn btn-outline-danger btn-sm" onClick={confirmDelete}>刪除菜單</button>
+      }
       {
         props.type !== 'VIEW' &&
         <button className="btn btn-success btn-block save-template" onClick={submit}>
