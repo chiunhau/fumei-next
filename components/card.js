@@ -5,7 +5,7 @@ function Card(props) {
     case 'NORMAL':
       return (
         <div className="dish-card -normal">
-          <span className="name">{props.dishName}</span>
+          <div className="name">{props.dishName}</div>
           <X color="var(--gray)" size="1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
@@ -45,7 +45,7 @@ function Card(props) {
       return (
         <div className="dish-card -add"  onClick={() => props.cb(props.categoryID, props.dishID)}>
           <span className="name">{props.dishName}</span>
-          <span className="select">選取</span>
+          <span className="select">加入</span>
         </div>
       )
   
