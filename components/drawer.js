@@ -1,5 +1,6 @@
 import {X, Plus, ChevronLeft } from 'react-feather';
 import Card from './card';
+import * as R from 'ramda';
 
 function Drawer(props) {
   const {
@@ -23,20 +24,23 @@ function Drawer(props) {
         <div className="content">
           <div className="dishes">
             { 
-              categoryDishes &&
-              categoryDishes.map((dish, i) => (
-                <Card 
-                  dishName={dish.name} 
-                  categoryID={categoryID}
-                  dishID={i}
-                  type="ADD"
-                  cb={(a, b) => {
-                    addDish(a, b);
-                    closeDrawer();
-                }}
-                key={dish.name}
-                />
-              ))
+              !R.isNil(categoryDishes) &&
+              Object.keys(categoryDishes).map((dishKey, i) => {
+                const dish = categoryDishes[dishKey];
+                return (
+                  <Card 
+                    dishName={dish.name} 
+                    categoryID={categoryID}
+                    dishID={dishKey}
+                    type="ADD"
+                    cb={(a, b) => {
+                      addDish(a, b);
+                      closeDrawer();
+                    }}
+                    key={dishKey}
+                  />
+                )
+              })
             }
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, deleteData } from '../../actions/fetchActions';
-import Template from '../../components/template';
+import Template from '../../components/template_new';
 
 function Edit(props) {
   const router = useRouter()
@@ -11,8 +11,8 @@ function Edit(props) {
   useEffect(() => {
     if(router && router.query && router.query.id) {
       console.log(router.query)
-      props.fetchCategories();
-      props.fetchAllDishes();
+      props.fetchAllCategories();
+      props.fetchNewAllDishes();
       props.fetchTemplate(router.query.id);
     }
     
@@ -25,8 +25,8 @@ function Edit(props) {
           <div className="container">
             <Template 
               categoriesDishes={props.currentTemplate.categories_dishes}
-              categories={props.categories}
-              allDishesNames={props.allDishesNames}
+              allCategories={props.allCategories}
+              allDishes={props.allDishes}
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
               handleSubmit={(data) => props.updateTemplate(router.query.id, data, () => {
@@ -46,10 +46,11 @@ function Edit(props) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  categories: state.data['/categories'],
+  allCategories: state.data['/all_categories'],
+  allDishes: state.data['/all_dishes'],
   template: state.template,
   currentTemplate: state.data[`/templates/${ownProps.router.query.id}`],
-  allDishesNames: state.data['/categories_dishes']
+  // allDishesNames: state.data['/categories_dishes']
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,8 +63,22 @@ const mapDispatchToProps = (dispatch) => ({
 
   fetchAllDishes: config => {
     dispatch(fetchData({
-      path: '/categories_dishes',
-      id: '/categories_dishes'
+      path: '/all_dishes',
+      id: '/all_dishes'
+    }))
+  },
+
+  fetchAllCategories: config => {
+    dispatch(fetchData({
+      path: '/all_categories',
+      id: '/all_categories'
+    }))
+  },
+
+  fetchNewAllDishes: config => {
+    dispatch(fetchData({
+      path: '/all_dishes',
+      id: '/all_dishes'
     }))
   },
 

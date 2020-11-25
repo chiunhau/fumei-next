@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, pushData } from '../actions/fetchActions';
-import Template from '../components/template';
+import Template from '../components/template_new';
 import * as R from 'ramda';
 
 function Create(props) {
   const router = useRouter()
   useEffect(() => {
-    props.fetchCategories();
-    props.fetchAllDishes();
+    props.fetchAllCategories();
+    props.fetchNewAllDishes();
     props.fetchEmptyTemplate();
     
   }, [])
@@ -17,21 +17,21 @@ function Create(props) {
   return (
     <div className="page-create">
       {
-          props.currentTemplate &&
-          <div className="container">
-            <Template 
-              categoriesDishes={props.currentTemplate.categories_dishes}
-              categories={props.categories}
-              allDishesNames={props.allDishesNames}
-              currentTemplate={props.currentTemplate}
-              handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data, (res) => {
-                alert('新增成功');
-                router.push(`/edit/${res.path.pieces_[1]}`) //DANGEROUS
-              })}
-              type="CREATE"
-            />
-          </div>
+        props.currentTemplate &&
+        <div className="container">
+          <Template 
+            categoriesDishes={props.currentTemplate.categories_dishes}
+            allCategories={props.allCategories}
+            allDishes={props.allDishes}
+            currentTemplate={props.currentTemplate}
+            handleDeleteDish={props.deleteDish}
+            handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data, (res) => {
+              alert('新增成功');
+              router.push(`/edit/${res.path.pieces_[1]}`) //DANGEROUS
+            })}
+            type="CREATE"
+          />
+        </div>
       }
     </div>
   )
@@ -40,7 +40,9 @@ function Create(props) {
 const mapStateToProps = (state, ownProps) => ({
   categories: state.data['/categories'],
   currentTemplate: state.data[`/default_template`],
-  allDishesNames: state.data['/categories_dishes']
+  allDishesNames: state.data['/categories_dishes'],
+  allDishes: state.data['/all_dishes'],
+  allCategories: state.data['/all_categories']
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -55,6 +57,20 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchData({
       path: '/categories_dishes',
       id: '/categories_dishes'
+    }))
+  },
+
+  fetchAllCategories: config => {
+    dispatch(fetchData({
+      path: '/all_categories',
+      id: '/all_categories'
+    }))
+  },
+
+  fetchNewAllDishes: config => {
+    dispatch(fetchData({
+      path: '/all_dishes',
+      id: '/all_dishes'
     }))
   },
 
@@ -76,7 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   pushTemplate: (id, data, cb) => {
     dispatch(pushData({
       path: `/templates`,
-      data: {...data, date: new Date().toLocaleDateString()},
+      data,
       cb
     }))
   }

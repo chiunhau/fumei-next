@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData } from '../../actions/fetchActions';
-import Template from '../../components/template';
+import Template from '../../components/template_new';
 import * as R from 'ramda';
 
 function View(props) {
   const router = useRouter()
   useEffect(() => {
     if(router && router.query && router.query.id) {
-      console.log(router.query)
-      props.fetchCategories();
+      props.fetchAllCategories();
       props.fetchAllDishes();
       props.fetchTemplate(router.query.id);
     }
@@ -25,7 +24,8 @@ function View(props) {
           <div className="container">
             <Template 
               categoriesDishes={props.currentTemplate.categories_dishes}
-              categories={props.categories}
+              allCategories={props.allCategories}
+              allDishes={props.allDishes}
               allDishesNames={props.allDishesNames}
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
@@ -39,24 +39,25 @@ function View(props) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  categories: state.data['/categories'],
+  allCategories: state.data['/all_categories'],
+  allDishes: state.data['/all_dishes'],
   template: state.template,
   currentTemplate: state.data[`/templates/${ownProps.router.query.id}`],
   allDishesNames: state.data['/categories_dishes']
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: config => {
+  fetchAllCategories: config => {
     dispatch(fetchData({
-      path: '/categories',
-      id: '/categories'
+      path: '/all_categories',
+      id: '/all_categories'
     }))
   },
 
   fetchAllDishes: config => {
     dispatch(fetchData({
-      path: '/categories_dishes',
-      id: '/categories_dishes'
+      path: '/all_dishes',
+      id: '/all_dishes'
     }))
   },
 

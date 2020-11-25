@@ -22,7 +22,7 @@ function Card(props) {
       return (
         <div className="dish-card -empty" onClick={props.cb}>
           <Plus color="var(--red)" size="1.4rem"/>
-          <span>加入菜色</span>
+        <span>加入 {props.categoryName}</span>
         </div>
       )
 
