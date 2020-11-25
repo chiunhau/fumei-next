@@ -5,6 +5,7 @@ import '../styles/header.scss';
 import '../styles/dishCard.scss';
 import '../styles/dishTemplate.scss';
 import '../styles/templateEntry.scss';
+import '../styles/manage.scss';
 import { Provider } from 'react-redux';
 import Header from '../components/header';
 import store from '../store'

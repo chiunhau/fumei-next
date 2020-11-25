@@ -15,8 +15,10 @@ function Drawer(props) {
       <div className="click" onClick={closeDrawer}></div>
       <div className="drawer-container">
         <div className="header">
+          <div className="clickable d-flex align-items-center">
             <ChevronLeft onClick={closeDrawer}/>
             <span onClick={closeDrawer}>所有{categoryName} </span> 
+          </div>
         </div>
         <div className="content">
           <div className="dishes">
