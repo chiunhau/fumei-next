@@ -4,11 +4,10 @@ import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, pushData } from '../actions/fetchActions';
 import * as R from 'ramda';
 import Header from '../components/header';
-import {Check, Edit2, X, ChevronDown, ChevronUp, ChevronLeft, MoreVertical } from 'react-feather';
+import {Check, Edit2, X, ChevronDown, ChevronUp, ChevronLeft, MoreVertical, Plus } from 'react-feather';
 import {Collapse} from 'react-collapse';
 import Modal from 'react-modal';
 import { Form, Field } from 'react-final-form'
-
 
 Modal.setAppElement('#__next');
 
@@ -16,9 +15,8 @@ function Manage(props) {
   const router = useRouter()
 
   useEffect(() => {
-    props.fetchCategories();
-    props.fetchAllDishes();
-    
+    props.fetchNewAllCategories();
+    props.fetchNewAllDishes();
   }, [router])
 
   return (
@@ -29,55 +27,70 @@ function Manage(props) {
       />
       <div className="container">
         <ManageTemplate 
-          categoriesDishes={props.categoriesDishes}
+          allCategories={props.allCategories}
+          allDishes={props.allDishes}
           updateDish={props.updateDish}
+          createDish={props.createDish}
         />
       </div>
-      
     </div>
   )
 }
 
+
 function ManageTemplate(props) {
-  const [templateState, setTemplateState] = useState({});
   const [someoneIsOpen, setSomeoneIsOpen] = useState(false);
-  const initTemplateState = (data) => {
-    console.log(data)
-    setTemplateState(data)
-  }
+  const [allDishesState, setAllDishesState] = useState({});
 
-
+  // init allDishesState
   useEffect(() => {
-    initTemplateState(props.categoriesDishes)
-  }, [props.categoriesDishes])
+    setAllDishesState(props.allDishes)
+  }, [props.allDishes])
 
   return (
     <div className="manage-template">
       {
-        templateState &&
-        templateState.length > 0 &&
-        templateState.map((category, i) => (
-          <div className="manage-category" key={category.category_name}>
-            <CategoryCollapse title={category.category_name} count={category.dishes && category.dishes.length}>
-              <ul>            
-              {
-                category.dishes &&
-                category.dishes.map((dish, i) => (
-                  <ManageCard
-                    categoryID={category.category_id}
-                    dishID={i} //DANGEROUS
-                    dish={dish} 
-                    someoneIsOpen={someoneIsOpen}
-                    setSomeoneIsOpen={setSomeoneIsOpen}
-                    updateDish={props.updateDish}
-                  />
-                ))
-              }
-              </ul>
-            </CategoryCollapse>
+        !R.isNil(allDishesState) &&
+        !R.isNil(props.allCategories) &&
+        Object.keys(props.allCategories).map((catKey, i) => {
+          const category = props.allCategories[catKey];
+          return (
+            <div className="manage-category" key={catKey}>
+              <CategoryCollapse title={category.name}>
+                <ul>
+                {
+                  Object.keys(R.filter(d => d.cat_id === catKey, allDishesState)).map((dishKey, j) => {
+                    const dish = allDishesState[dishKey];
+                    return (
+                      <ManageCard
+                      type="EXISTED"
+                      categoryID={catKey}
+                      dishID={dishKey} //DANGEROUS
+                      dish={dish} 
+                      someoneIsOpen={someoneIsOpen}
+                      setSomeoneIsOpen={setSomeoneIsOpen}
+                      dangerouslyUpdateAllDishesState={data => setAllDishesState({...allDishesState, ...data})}
+                      updateDish={props.updateDish}
+                      key={dishKey}
+                    />
+                    )
+                  })
+                }
+                <ManageCard
+                  type="NEW"
+                  categoryID={catKey}
+                  categoryName={category.name}
+                  someoneIsOpen={someoneIsOpen}
+                  setSomeoneIsOpen={setSomeoneIsOpen}
+                  dangerouslyUpdateAllDishesState={data => setAllDishesState({...allDishesState, ...data})}
+                  createDish={props.createDish}
+                />
 
-          </div>
-        ))
+                </ul>
+              </CategoryCollapse>
+            </div>
+          )}
+        )
       }
     </div>
   )
@@ -111,14 +124,26 @@ function ManageCard(props) {
 
   const handleSubmit = (data) => {
     closeEditBox()
-    props.updateDish(props.categoryID, props.dishID, data, () => {
+    props.updateDish(props.dishID, data, () => {
       setCardData(data);
     })
   }
+
+  const handleSubmitCreate = (data) => {
+    closeEditBox()
+    props.createDish(data, (res) => {
+      // console.log(res.path.pieces_[1])
+      const newKey = res.path.pieces_[1]
+      props.dangerouslyUpdateAllDishesState({[newKey]: data})
+      // setCardData(data);
+    })
+  }
   return (
-    <li className={`manage-card ${props.someoneIsOpen && !isEditing ? '-disable' : ''}`}  onClick={openEditBox}>
+
+    <li className={`manage-card ${props.someoneIsOpen && !isEditing ? '-disable' : ''} ${props.type === 'NEW' && '-new'}`}  onClick={openEditBox}>
       {
         !isEditing &&
+        props.type === 'EXISTED' &&
         <div className="display">
           <div className={`status ${cardData.active ? '-active' : '-not-active'}`}></div>
           <div className="content">
@@ -146,17 +171,34 @@ function ManageCard(props) {
         </div>
 
       }
+      {
+        !isEditing &&
+        props.type === 'NEW' &&
+        <div className="display -new">
+          <Plus color="var(--red)" size="1.2rem"/>新建 {props.categoryName}
+        </div>
+      }
       
       {
         isEditing &&
+        props.type === 'EXISTED' &&
         <EditBox 
           handleCancel={closeEditBox} 
           handleSubmit={handleSubmit} 
           data={dish}
         />
-
       }
-      
+
+{
+        isEditing &&
+        props.type === 'NEW' &&
+        <EditBox 
+          type='NEW'
+          handleCancel={closeEditBox} 
+          handleSubmit={handleSubmitCreate}
+          data={{cat_id: props.categoryID}}
+        />
+      }
     </li>
   )
 }
@@ -176,7 +218,7 @@ function EditBox(props) {
   return (
       <Form
         onSubmit={handleSubmit}
-        initialValues={{ name: '一條魚', prices: {default: 0}, priceType: 'single', active: true, ...props.data }}
+        initialValues={{ name: '', prices: {d: 0}, price_type: 'FIXED', active: true, ...props.data }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} className="edit-box">
           <div className="container">
@@ -204,10 +246,10 @@ function EditBox(props) {
               <div>
                 <div className="form-check form-check-inline">
                   <Field
-                    name="priceType"
+                    name="price_type"
                     component="input"
                     type="radio"
-                    value="single"
+                    value="FIXED"
                     className="form-check-input"
                     id="priceType_single"
                   />
@@ -215,10 +257,10 @@ function EditBox(props) {
                 </div>
                 <div className="form-check form-check-inline">
                   <Field
-                    name="priceType"
+                    name="price_type"
                     component="input"
                     type="radio"
-                    value="bySize"
+                    value="BY_SIZE"
                     className="form-check-input"
                     id="priceType_bySize"
                   />
@@ -227,11 +269,11 @@ function EditBox(props) {
 
               </div>
             </div>
-            <Condition when="priceType" is="single">
+            <Condition when="price_type" is="FIXED">
               <div className="form-group">
                 <label>單一價格</label>
                 <Field
-                  name="prices.default"
+                  name="prices.d"
                   component="input"
                   type="number"
                   placeholder="輸入價格"
@@ -239,7 +281,7 @@ function EditBox(props) {
                 />
               </div>
             </Condition>
-            <Condition when="priceType" is="bySize">
+            <Condition when="price_type" is="BY_SIZE">
               <div className="form-row">
                 <div className="col">
                   <div className="form-group">
@@ -310,7 +352,7 @@ function EditBox(props) {
 }
 
 function CategoryCollapse(props) {
-  const [isOpened, setIsOpened] = useState(true)
+  const [isOpened, setIsOpened] = useState(false)
   const toggle = () => {
     setIsOpened(!isOpened)
   }
@@ -336,7 +378,9 @@ function CategoryCollapse(props) {
 
 const mapStateToProps = (state, ownProps) => ({
   categories: state.data['/categories'],
-  categoriesDishes: state.data['/categories_dishes']
+  categoriesDishes: state.data['/categories_dishes'],
+  allCategories: state.data['/all_categories'],
+  allDishes: state.data['/all_dishes'],
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -347,10 +391,24 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
+  fetchNewAllCategories: config => {
+    dispatch(fetchData({
+      path: '/all_categories',
+      id: '/all_categories'
+    }))
+  },
+
   fetchAllDishes: config => {
     dispatch(fetchData({
       path: '/categories_dishes',
       id: '/categories_dishes'
+    }))
+  },
+
+  fetchNewAllDishes: config => {
+    dispatch(fetchData({
+      path: '/all_dishes',
+      id: '/all_dishes'
     }))
   },
 
@@ -361,9 +419,17 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  updateDish: (categoryID, dishID, data, cb) => {
+  updateDish: (dishID, data, cb) => {
     dispatch(updateData({
-      path: `/categories_dishes/${categoryID}/dishes/${dishID}`,
+      path: `/all_dishes/${dishID}`,
+      data,
+      cb
+    }))
+  },
+
+  createDish: (data, cb) => {
+    dispatch(pushData({
+      path: `/all_dishes/`,
       data,
       cb
     }))
@@ -374,6 +440,13 @@ const mapDispatchToProps = (dispatch) => ({
       path: `/templates`,
       data: {...data, date: new Date().toLocaleDateString()},
       cb
+    }))
+  },
+
+  debugPushData: (data) => {
+    dispatch(pushData({
+      path: `/all_dishes`,
+      data
     }))
   }
 })

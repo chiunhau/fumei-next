@@ -34,10 +34,25 @@ li.manage-card {
     // background-color: #ccc;
   }
 
+  &.-new {
+
+    background-color: transparent;
+    box-shadow: none;
+    border: 1px solid var(--m-gray);
+
+    .display {
+      color: var(--red);
+      justify-content: center;
+    }
+  }
+
   .display {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+
+
   }
 
   .status {
