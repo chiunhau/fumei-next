@@ -9,7 +9,7 @@ function Create(props) {
   const router = useRouter()
   useEffect(() => {
     props.fetchAllCategories();
-    props.fetchNewAllDishes();
+    props.fetchAllDishes();
     props.fetchEmptyTemplate();
     
   }, [])
@@ -25,7 +25,7 @@ function Create(props) {
             allDishes={props.allDishes}
             currentTemplate={props.currentTemplate}
             handleDeleteDish={props.deleteDish}
-            handleSubmit={(data) => props.pushTemplate(new Date().toISOString().slice(0, 19), data, (res) => {
+            handleSubmit={(data) => props.pushTemplate({...data, created_date: new Date().toJSON()}, (res) => {
               alert('新增成功');
               router.push(`/edit/${res.path.pieces_[1]}`) //DANGEROUS
             })}
@@ -46,20 +46,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: config => {
-    dispatch(fetchData({
-      path: '/categories',
-      id: '/categories'
-    }))
-  },
-
-  fetchAllDishes: config => {
-    dispatch(fetchData({
-      path: '/categories_dishes',
-      id: '/categories_dishes'
-    }))
-  },
-
   fetchAllCategories: config => {
     dispatch(fetchData({
       path: '/all_categories',
@@ -67,10 +53,11 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  fetchNewAllDishes: config => {
+  fetchAllDishes: config => {
     dispatch(fetchData({
       path: '/all_dishes',
-      id: '/all_dishes'
+      id: '/all_dishes',
+      forceFetch: true
     }))
   },
 
@@ -89,7 +76,7 @@ const mapDispatchToProps = (dispatch) => ({
     }))
   },
 
-  pushTemplate: (id, data, cb) => {
+  pushTemplate: (data, cb) => {
     dispatch(pushData({
       path: `/templates`,
       data,

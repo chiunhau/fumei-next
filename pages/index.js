@@ -35,10 +35,10 @@ function Manage(props) {
               const template = props.templates[key];
 
               return (
-                <div className="template-entry" onClick={() => router.push(`/edit/${key}`)}>
+                <div className="template-entry" onClick={() => router.push(`/edit/${key}`)} key={key}>
                   <div className="info">
                     <h4 className="title">{template.name}</h4>
-                    <span className="date">{template.date}</span>
+                    <span className="date">建立日期：{template.created_date.slice(0, 10)}</span>
                   </div>
                   <div className="actions">
                     {/* <Search color="var(--red)"/> */}

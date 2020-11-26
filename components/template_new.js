@@ -13,7 +13,6 @@ const indexMap = R.addIndex(R.map);
 function Template(props) {
   const [choicesDrawer, setDrawer] = useState({
     isOpen: false,
-    categoryID: 0
   });
 
   const [templateState, setTemplateState] = useState({});
@@ -56,10 +55,19 @@ function Template(props) {
     })
   }
 
+  const addDishWithCustomName = (catID, dishID, dishName) => {
+    const lens = R.lensPath([catID, 'dishes'])
+    const appendDish = R.append({id: dishID, customName: dishName}, R.view(lens, templateState.categories_dishes))
+    const updated = R.set(lens, appendDish, templateState.categories_dishes)
+    console.log(updated)
+    setTemplateState({
+      ...templateState,
+      categories_dishes: updated
+    })
+  }
+
   const submit = () => {
-    const data = {...templateState, created_date: new Date().toJSON()}
     props.handleSubmit(templateState)
-    console.log(data)
   }
 
   const handleSaveTemplateName = (val) => {
@@ -76,11 +84,22 @@ function Template(props) {
     }
   }
 
+  const flattenKeyVals = (obj, innerKey) => {
+    return R.map(k => k.dishes, R.keys(obj))
+  }
 
   useEffect(() => {
     console.log('init template states')
     console.log(props.categoriesDishes)
-    initTemplateState(props.currentTemplate)
+    if (props.type === 'VIEW') {
+      console.log('view')
+      const filterEmptyCats = R.filter(c => !R.isEmpty(c.dishes) && !R.isNil(c.dishes), props.currentTemplate.categories_dishes);
+      initTemplateState({...props.currentTemplate, categories_dishes: filterEmptyCats })
+    }
+    else {
+      initTemplateState(props.currentTemplate)
+    }
+    
   }, [props.currentTemplate])
 
   return (
@@ -117,6 +136,11 @@ function Template(props) {
         }
         
       </h3>
+      {
+        props.type === 'VIEW' &&
+        templateState.categories_dishes && 
+        <p>共 {R.reduce((acc, val) => acc + val,0, R.map(a => templateState.categories_dishes[a].dishes.length, R.keys(templateState.categories_dishes)))} 道菜</p>
+      }
       <ul className="categories">
         {
           !R.isNil(templateState.categories_dishes) &&
@@ -125,10 +149,14 @@ function Template(props) {
           Object.keys(templateState.categories_dishes).map((catKey, i) => {
             const category = templateState.categories_dishes[catKey];
             return (
+              // (props.type !== 'VIEW' || (props.type === 'VIEW' && category.dishes && category.dishes.length > 0)) &&
               <li className="category" key={i}>
-                <div className="header">
-                  <h4 className="name">{props.allCategories[catKey].name}</h4>
-                </div>
+                {
+                    props.type !== 'VIEW' &&
+                  <div className="header">
+                    <h4 className="name">{props.allCategories[catKey].name}</h4>
+                  </div>
+                }
                 <div className="cards">
                 {
                   category.dishes &&
@@ -136,7 +164,7 @@ function Template(props) {
                   category.dishes.map((dish, j) => (
                     <Card 
                       dishID={dish.id}
-                      dishName={props.allDishes[dish.id].name || '找不到名稱'}
+                      dishName={dish.customName || props.allDishes[dish.id].name || '找不到名稱'}
                       type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                       categoryID={catKey}
                       key={`${catKey}_${dish}`}
@@ -174,8 +202,18 @@ function Template(props) {
           <Drawer 
             categoryID={choicesDrawer.categoryID}
             categoryName={props.allCategories[choicesDrawer.categoryID].name}
-            categoryDishes={R.filter(d => d.cat_id === choicesDrawer.categoryID, props.allDishes)}
+            categoryDishes={
+              R.filter(
+                d => d.cat_id === choicesDrawer.categoryID && d.active, 
+                props.allDishes
+              )}
+            C01OptionsDishes={
+              R.filter(
+                d => d.cat_id === '-C01-OPTIONS' && d.active, 
+                props.allDishes
+              )}
             addDish={addDish}
+            addDishWithCustomName={addDishWithCustomName}
             closeDrawer={closeDrawer}
           />
         }

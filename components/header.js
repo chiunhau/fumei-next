@@ -35,11 +35,11 @@ class Header extends React.Component {
       <div className="app-header">
         <div className="container">
           <div className="row d-flex align-items-center">
-            <div className="col-2 text-left clickable"><Menu color="var(--red)" size="1.5rem" onClick={this.openMenu}/></div>
-            <div className="col-8 text-center"><h2 className="title">{title}</h2></div>
+            <div className="col-3 text-left clickable"><Menu color="var(--red)" size="1.5rem" onClick={this.openMenu}/></div>
+            <div className="col-6 text-center"><h2 className="title">{title}</h2></div>
             {
               showRightIcon &&
-              <div className="col-2 text-right clickable"><Link href="/create"><a><Plus color="var(--red)" size="1.5rem"/></a></Link></div>
+              <div className="col-3 text-right clickable"><Link href="/create"><a style={{color: 'var(--red)', display: 'flex', justifyContent: 'flex-end'}}><Plus color="var(--red)" size="1.5rem"/><span className="d-none d-md-inline">建立新菜單</span></a></Link></div>
             }
             
           </div>

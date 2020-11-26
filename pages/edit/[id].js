@@ -12,7 +12,7 @@ function Edit(props) {
     if(router && router.query && router.query.id) {
       console.log(router.query)
       props.fetchAllCategories();
-      props.fetchNewAllDishes();
+      props.fetchAllDishes();
       props.fetchTemplate(router.query.id);
     }
     
@@ -50,21 +50,14 @@ const mapStateToProps = (state, ownProps) => ({
   allDishes: state.data['/all_dishes'],
   template: state.template,
   currentTemplate: state.data[`/templates/${ownProps.router.query.id}`],
-  // allDishesNames: state.data['/categories_dishes']
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: config => {
-    dispatch(fetchData({
-      path: '/categories',
-      id: '/categories'
-    }))
-  },
-
   fetchAllDishes: config => {
     dispatch(fetchData({
       path: '/all_dishes',
-      id: '/all_dishes'
+      id: '/all_dishes',
+      forceFetch: true
     }))
   },
 
@@ -72,13 +65,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchData({
       path: '/all_categories',
       id: '/all_categories'
-    }))
-  },
-
-  fetchNewAllDishes: config => {
-    dispatch(fetchData({
-      path: '/all_dishes',
-      id: '/all_dishes'
     }))
   },
 
