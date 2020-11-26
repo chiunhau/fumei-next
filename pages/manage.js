@@ -56,7 +56,7 @@ function ManageTemplate(props) {
           const category = props.allCategories[catKey];
           return (
             <div className="manage-category" key={catKey}>
-              <CategoryCollapse title={category.name}>
+              <CategoryCollapse title={category.name} count={Object.keys(R.filter(d => d.cat_id === catKey, allDishesState)).length}>
                 <ul>
                 {
                   Object.keys(R.filter(d => d.cat_id === catKey, allDishesState)).map((dishKey, j) => {

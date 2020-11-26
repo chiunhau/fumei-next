@@ -137,6 +137,11 @@ function Template(props) {
         
       </h3>
       {
+        props.type !== 'CREATE' &&
+        templateState.created_date &&
+        <p style={{fontSize: '.9rem', color: 'var(--gray)'}}>建立日期：{templateState.created_date.slice(0, 10)}</p>
+      }
+      {
         props.type === 'VIEW' &&
         templateState.categories_dishes && 
         <p>共 {R.reduce((acc, val) => acc + val,0, R.map(a => templateState.categories_dishes[a].dishes.length, R.keys(templateState.categories_dishes)))} 道菜</p>
@@ -167,7 +172,7 @@ function Template(props) {
                       dishName={dish.customName || props.allDishes[dish.id].name || '找不到名稱'}
                       type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                       categoryID={catKey}
-                      key={`${catKey}_${dish}`}
+                      key={`${catKey}_${dish.id}`}
                       removeDish={() => removeDish(catKey, j)}
                     />
                   ))

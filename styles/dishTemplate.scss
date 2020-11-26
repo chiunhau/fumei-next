@@ -100,6 +100,7 @@
     overflow-y: scroll;
 
     > .header {
+      z-index: 1000;
       padding-left: 20px;
       height: 56px;
       line-height: 56px;
@@ -146,6 +147,7 @@
         border-top: 1px solid var(--m-gray);
         display: flex;
         position: sticky;
+        z-index: 1000;
         top: 56px;
         background-color: #fff;;
         .panel-tab {
@@ -154,6 +156,7 @@
           height: 60px;
           line-height: 60px;
           position: relative;
+          color: var(--gray);
 
           &.-active {
             color: var(--red);
@@ -174,6 +177,17 @@
             cursor: pointer;
           }
 
+        }
+      }
+
+      @media (max-width: 400px) {
+        .panel-tabs {
+          height: 52px;
+
+          .panel-tab {
+            height: 52px;
+            line-height: 52px;
+          }
         }
       }
 
@@ -207,6 +221,14 @@
             border: 2px solid var(--red);
             color: var(--dark);
             opacity: 1;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .option-card {
+            height: 40px;
+            padding: 0 12px;
+            margin: 4px;
           }
         }
       }

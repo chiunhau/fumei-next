@@ -29,7 +29,7 @@ function TemplateHeader(props) {
             </div>
             {
               props.type !== 'CREATE' &&
-              <div className="col-4 text-right"><a href={`/view/${props.templateID}`} target="_blank"><Share size="1.5rem"/></a></div>
+              <div className="col-4 text-right"><a href={`/view/${props.templateID}`} target="_blank" style={{fontWeight: 'normal', display: 'flex', justifyContent: 'flex-end'}}><Share size="1.5rem"/><span className="d-none d-md-inline">匯出</span></a></div>
             }
             
           </div>
