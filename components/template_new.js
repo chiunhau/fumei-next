@@ -5,7 +5,7 @@ import * as R from 'ramda';
 import { useEffect, useState } from 'react'
 import EdiText from 'react-editext'
 import categories from '../pages/categories';
-import {Check, Edit2, X } from 'react-feather';
+import {Check, Edit2, X, Plus } from 'react-feather';
 import TemplateHeader from './templateHeader'
 const indexMap = R.addIndex(R.map);
 
@@ -189,8 +189,7 @@ function Template(props) {
                   category.dishes &&
                   category.dishes.length > 0 &&
                   props.type !== 'VIEW' &&
-                  <Card 
-                    type={`${props.type === 'VIEW' ? 'VIEW_MORE' : 'MORE'}`}
+                  <AddMore 
                     categoryID={catKey}
                     key={`${catKey}_MORE`}
                     cb={() => openDrawer(catKey)}
@@ -250,3 +249,14 @@ function Template(props) {
 }
 
 export default Template
+
+function AddMore(props) {
+  return (
+    <div className="add-more">
+      <button className="btn" onClick={props.cb}>
+          <Plus color="var(--red)" size="1rem"/>
+          <span>加入更多</span>
+      </button>
+    </div>
+  )
+}

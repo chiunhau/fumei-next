@@ -41,7 +41,9 @@ function Manage(props) {
 function ManageTemplate(props) {
   const [someoneIsOpen, setSomeoneIsOpen] = useState(false);
   const [allDishesState, setAllDishesState] = useState({});
-
+  const [modelState, setModelState] = useState({
+    isOpen: false
+  })
   // init allDishesState
   useEffect(() => {
     setAllDishesState(props.allDishes)
@@ -326,18 +328,17 @@ function EditBox(props) {
               <Field 
                 name="notes" 
                 component="textarea" 
-                placeholder="Notes"
+                placeholder="輸入備註"
                 className="form-control"
               />
             </div>
-            <div className="form-group form-check">
+            <div className="form-check">
               <Field 
                 name="active" 
                 component="input" 
                 className="form-check-input"
-                type="checkbox"/>
-              <label>啟用</label>
-              
+                type="checkbox"
+                id="form-check-active"/><label class="form-check-label" htmlFor="form-check-active">啟用</label>
             </div>
             <button type="submit" className="btn btn-success btn btn-block" disabled={submitting}>
               送出

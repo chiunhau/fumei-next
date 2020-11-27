@@ -1,4 +1,4 @@
-import {X, Plus, MoreHorizontal } from 'react-feather';
+import {X, Plus, MoreHorizontal, PlusCircle, Trash2 } from 'react-feather';
 
 function Card(props) {
   switch (props.type) {
@@ -6,7 +6,7 @@ function Card(props) {
       return (
         <div className="dish-card -normal">
           <div className="name">{props.dishName}</div>
-          <X color="var(--gray)" size="1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
+          <Trash2 color="var(--gray)" size="1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 
@@ -21,8 +21,8 @@ function Card(props) {
     case 'EMPTY':
       return (
         <div className="dish-card -empty" onClick={props.cb}>
-          <Plus color="var(--red)" size="1.4rem"/>
-        <span>加入 {props.categoryName}</span>
+          <Plus color="var(--red)" size="1rem"/>
+        <span>加入{props.categoryName}</span>
         </div>
       )
 
