@@ -5,7 +5,7 @@ import * as R from 'ramda';
 import { useEffect, useState } from 'react'
 import EdiText from 'react-editext'
 import categories from '../pages/categories';
-import {Check, Edit2, X, Plus } from 'react-feather';
+import {Check, Edit2, X, Plus, PlusCircle, Trash2, MinusCircle } from 'react-feather';
 import TemplateHeader from './templateHeader'
 const indexMap = R.addIndex(R.map);
 
@@ -93,7 +93,7 @@ function Template(props) {
   const calculateCounts = () => {
     const flatten = R.flatten(R.reduce(
       (acc, val) => R.append(val, acc), [], R.map(
-        a => templateState.categories_dishes[a].dishes,
+        a => templateState.categories_dishes[a].dishes || [],
         R.keys(templateState.categories_dishes)
       )))
     
@@ -213,13 +213,26 @@ function Template(props) {
                   category.dishes &&
                   category.dishes.length > 0 &&
                   props.type !== 'VIEW' &&
-                  <AddMore 
+                  <AddMore
+                    mediaQuery="xs"
                     categoryID={catKey}
                     key={`${catKey}_MORE`}
                     cb={() => openDrawer(catKey)}
                   />
                 }
+                
                 </div>
+                {
+                  category.dishes &&
+                  category.dishes.length > 0 &&
+                  props.type !== 'VIEW' &&
+                  <AddMore 
+                    mediaQuery="sm"
+                    categoryID={catKey}
+                    key={`${catKey}_MORE`}
+                    cb={() => openDrawer(catKey)}
+                  />
+                }
               </li>
             )
           })
@@ -292,11 +305,11 @@ export default Template
 
 function AddMore(props) {
   return (
-    <div className="add-more">
+    <span className={`add-more -${props.mediaQuery}`}>
       <button className="btn" onClick={props.cb}>
-          <Plus color="var(--red)" size="1rem"/>
-          <span>加入更多</span>
+          {/* <PlusCircle color="var(--red)" size="1.2rem"/> */}
+          <div style={{color: 'var(--red)', textDecoration: 'underline', fontSize: '15px'}}>+更多</div>
       </button>
-    </div>
+    </span>
   )
 }

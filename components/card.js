@@ -7,7 +7,7 @@ function Card(props) {
         <div className="dish-card -normal">
           <div className="name">{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
           
-          <Trash2 color="var(--gray)" size="1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
+          <Trash2 color="var(--gray)" size="1.2rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 
@@ -15,15 +15,15 @@ function Card(props) {
       return (
         <div className="dish-card -view">
           <span className="name">{props.dishName}</span>
-          {/* <X color="var(--red)" size="20px" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/> */}
+          {/* <X color="var(--gray)" size="20px" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/> */}
         </div>
       )
 
     case 'EMPTY':
       return (
         <div className="dish-card -empty" onClick={props.cb}>
-          <Plus color="var(--red)" size="1rem"/>
-        <span>加入{props.categoryName}</span>
+          <PlusCircle color="var(--red)" size="1.2rem"/>
+        <span>&nbsp;加入{props.categoryName}</span>
         </div>
       )
 

@@ -6,7 +6,8 @@
     list-style: none;
 
     > .category {
-      padding: 20px 0;
+      position: relative;
+      padding: 16px 0;
       border-bottom: 1px solid var(--light-gray);
       display: flex;
       align-items: flex-start;
@@ -50,23 +51,92 @@
           margin-bottom: 12px;
 
 
-          &:last-child {
+          &:last-of-type {
             margin-bottom: 0;
           }
         }
 
-        > .add-more {
-          text-align: right;
-          padding: 0;
+        div.dish-card.-normal:last-of-type {
+          margin-bottom: 0;
+        }
 
+      }
+
+      .add-more {
+        text-align: right;
+        padding: 0;
+        // width: 60px;
+        // height: 60px;
+        // border-left: 1px solid var(--m-gray);
+        // margin-left: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          position: absolute;
+          // bottom: 2px;
+          // right: 0;
+          // height: 60px;
+          // width: 60px;
+          padding: 0;
+          font-size: .9rem;
+          color: var(--gray);
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
+        }
+
+      }
+
+      @media (max-width: 400px) {
+        .add-more.-xs {
+          text-align: center;
+          padding: 0;
+          height: 20px;
+          // border-left: 1px solid var(--m-gray);
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+  
           button {
+            height: 20px;
             padding: 0;
             font-size: .9rem;
             color: var(--gray);
-            display: inline-flex;
-            align-items: center;
           }
+  
+        }
+        .add-more.-sm {
+          display: none;
+        }
+      }
 
+      @media (min-width: 400.1px) {
+        .add-more.-sm {
+          padding: 0;
+          flex: 0 0 50px;
+          width: 50px;
+          height: 60px;
+          // border-left: 1px solid var(--m-gray);
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+  
+          button {
+            text-align: right;
+            position: absolute;
+            bottom: 0px;
+            height: 60px;
+            width: 50px;
+            padding: 0;
+            font-size: .9rem;
+            color: var(--gray);
+          }
+  
+        }
+        .add-more.-xs {
+          display: none;
         }
       }
 
@@ -107,6 +177,7 @@
     
     position: relative;
     width: 90vw;
+    max-width: 800px;
     height: 70vh;
     // height: auto;
     background-color: #eee;
