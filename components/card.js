@@ -5,7 +5,8 @@ function Card(props) {
     case 'NORMAL':
       return (
         <div className="dish-card -normal">
-          <div className="name">{props.dishName}</div>
+          <div className="name">{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
+          
           <Trash2 color="var(--gray)" size="1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )

@@ -61,7 +61,7 @@
 
           button {
             padding: 0;
-            font-size: 1rem;
+            font-size: .9rem;
             color: var(--gray);
             display: inline-flex;
             align-items: center;
@@ -163,7 +163,8 @@
         position: sticky;
         z-index: 1000;
         top: 52px;
-        background-color: #fff;;
+        background-color: #fff;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
         .panel-tab {
           width: 100%;
           text-align: center;
@@ -268,6 +269,15 @@
   left: 0;
   border-radius: 0;
   z-index: 100;
-  button {
+  box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.05);
+
+  .template-summary {
+    margin: 4px;
+    font-size: 1rem;
+
+    .highlight {
+      color: var(--red);
+    }
+
   }
 }

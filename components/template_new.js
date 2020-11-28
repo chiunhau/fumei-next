@@ -67,6 +67,7 @@ function Template(props) {
   }
 
   const submit = () => {
+    // console.log(calculateSum())
     props.handleSubmit(templateState)
   }
 
@@ -86,6 +87,27 @@ function Template(props) {
 
   const flattenKeyVals = (obj, innerKey) => {
     return R.map(k => k.dishes, R.keys(obj))
+  }
+
+  const calculateCounts = () => {
+    const flatten = R.flatten(R.reduce(
+      (acc, val) => R.append(val, acc), [], R.map(
+        a => templateState.categories_dishes[a].dishes,
+        R.keys(templateState.categories_dishes)
+      )))
+    
+    return flatten.length
+  }
+
+  const calculateSum = () => {
+    const flatten = R.flatten(R.reduce(
+      (acc, val) => R.append(val, acc), [], R.map(
+        a => templateState.categories_dishes[a].dishes || [],
+        R.keys(templateState.categories_dishes)
+      )))
+
+      return R.reduce((acc, val) => acc + parseInt(props.allDishes[val.id].prices.d), 0, flatten)
+    
   }
 
   useEffect(() => {
@@ -144,7 +166,7 @@ function Template(props) {
       {
         props.type === 'VIEW' &&
         templateState.categories_dishes && 
-        <p>共 {R.reduce((acc, val) => acc + val,0, R.map(a => templateState.categories_dishes[a].dishes.length, R.keys(templateState.categories_dishes)))} 道菜</p>
+      <p>共 {calculateCounts()} 道菜，約 {calculateSum()} 元</p>
       }
       <ul className="categories">
         {
@@ -170,6 +192,7 @@ function Template(props) {
                     <Card 
                       dishID={dish.id}
                       dishName={dish.customName || props.allDishes[dish.id].name || '找不到名稱'}
+                      prices={props.allDishes[dish.id].prices}
                       type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                       categoryID={catKey}
                       key={`${catKey}_${dish.id}`}
@@ -229,18 +252,24 @@ function Template(props) {
       }
       {
         props.type !== 'VIEW' &&
+        !R.isNil(templateState.categories_dishes) &&
+        !R.isNil(props.allCategories) &&
+        !R.isNil(props.allDishes) &&
         <div className="fixed-bottom">
-          <div className="container">
-            <button className="btn btn-success btn-block save-template" onClick={submit}>
-              {
-                props.type === 'CREATE' ?
-                '儲存'
-                :
-                '儲存'
-              }
-            </button>
+          <div className="container">  
+            <div className="d-flex justify-content-end align-items-center">
+      <p className="text-right template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，價值約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
+              <button className="btn btn-success save-template" onClick={submit}>
+                {
+                  props.type === 'CREATE' ?
+                  '儲存'
+                  :
+                  '儲存'
+                }
+              </button>
+              
+            </div>
           </div>
-        
         </div>
       }
       

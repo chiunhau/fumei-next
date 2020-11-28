@@ -96,8 +96,8 @@ function C01Panel(props) {
   return (
     <div className="-C01-panel">
       <div className="panel-tabs">
-        <div className={`panel-tab ${activeTab === 0 ? '-active' : ''}`} onClick={() => setActiveTab(0)}>常用組合</div>
-        <div className={`panel-tab ${activeTab === 1 ? '-active' : ''}`} onClick={() => setActiveTab(1)}>自由搭配食材</div>
+        <div className={`panel-tab ${activeTab === 0 ? '-active' : ''}`} onClick={() => setActiveTab(0)}>常用</div>
+        <div className={`panel-tab ${activeTab === 1 ? '-active' : ''}`} onClick={() => setActiveTab(1)}>自由組合</div>
       </div>
       <div className="panel-workspace">
         {

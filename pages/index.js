@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { fetchData } from '../actions/fetchActions';
-import {Edit3, Search } from 'react-feather';
+import {Calendar, Edit3, Search } from 'react-feather';
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Header from '../components/header';
@@ -38,7 +38,7 @@ function Manage(props) {
                 <div className="template-entry" onClick={() => router.push(`/edit/${key}`)} key={key}>
                   <div className="info">
                     <h4 className="title">{template.name}</h4>
-                    <span className="date">建立日期：{template.created_date.slice(0, 10)}</span>
+                    <span className="date" style={{display: 'flex', alignItems: 'center'}}><Calendar size="1rem" />&nbsp;{template.created_date.slice(0, 10)}</span>
                   </div>
                   <div className="actions">
                     {/* <Search color="var(--red)"/> */}
