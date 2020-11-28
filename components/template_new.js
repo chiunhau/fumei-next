@@ -13,6 +13,7 @@ const indexMap = R.addIndex(R.map);
 function Template(props) {
   const [choicesDrawer, setDrawer] = useState({
     isOpen: false,
+    // categoryID: '-C07'
   });
 
   const [templateState, setTemplateState] = useState({});
@@ -237,6 +238,16 @@ function Template(props) {
             C01OptionsDishes={
               R.filter(
                 d => d.cat_id === '-C01-OPTIONS' && d.active, 
+                props.allDishes
+              )}
+            C07OptionsDishes={
+              R.filter(
+                d => d.cat_id === '-C07-OPTIONS' && d.active, 
+                props.allDishes
+              )}
+            C07MethodsDishes={
+              R.filter(
+                d => d.cat_id === '-C07-METHODS' && d.active, 
                 props.allDishes
               )}
             addDish={addDish}
