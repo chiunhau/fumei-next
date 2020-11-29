@@ -24,10 +24,13 @@ function Template(props) {
     setDrawer({isOpen: false})
   }
 
-  const openDrawer = (categoryID) => {
+  const openDrawer = (categoryID, replaceIndex = -1) => {
     const layout= document.querySelector('body');
     layout.classList.add('no-touch-scroll');
-    setDrawer({isOpen: true, categoryID: categoryID})
+
+    setDrawer({isOpen: true, categoryID: categoryID, replaceIndex})
+
+    
   }
 
   const initTemplateState = data => {
@@ -67,6 +70,28 @@ function Template(props) {
     })
   }
 
+  const replaceDish = (catID, dishID, index) => {
+    console.log('replaceDish')
+    const lens = R.lensPath([catID, 'dishes'])
+    const newArray = R.update(index, {id: dishID}, R.view(lens, templateState.categories_dishes));
+    const updated = R.set(lens, newArray, templateState.categories_dishes)
+    setTemplateState({
+      ...templateState,
+      categories_dishes: updated
+    })
+  }
+
+  const replaceDishWithCustomName = (catID, dishID, dishName, index) => {
+    console.log('replaceDish')
+    const lens = R.lensPath([catID, 'dishes'])
+    const newArray = R.update(index, {id: dishID, customName: dishName}, R.view(lens, templateState.categories_dishes));
+    const updated = R.set(lens, newArray, templateState.categories_dishes)
+    setTemplateState({
+      ...templateState,
+      categories_dishes: updated
+    })
+  }
+
   const submit = () => {
     // console.log(calculateSum())
     props.handleSubmit(templateState)
@@ -76,6 +101,13 @@ function Template(props) {
     setTemplateState({
       ...templateState,
       name: val
+    })
+  }
+
+  const handleSaveTemplateNote = (val) => {
+    setTemplateState({
+      ...templateState,
+      note: val
     })
   }
 
@@ -159,6 +191,33 @@ function Template(props) {
         }
         
       </h3>
+       
+      {/* <p> */}
+        
+        {
+          props.type !== 'VIEW' ?
+          <EdiText
+          type="text"
+          value={templateState.note}
+          onSave={handleSaveTemplateNote}
+          editOnViewClick={true}
+          // submitOnUnfocus={true}
+          hideIcons={true}
+          submitOnEnter={true}
+          mainContainerClassName="ediTextContainer"
+          editContainerClassName="ediTextEditContainer"
+          editButtonContent={<Edit2/>}
+          saveButtonContent={<Check/>}
+          cancelButtonContent={<X/>}
+          editButtonClassName="btn"
+          saveButtonClassName="btn btn-outline-success"
+          cancelButtonClassName="btn btn-outline-danger"
+        />
+        : templateState.name
+
+        }
+        
+      {/* </p> */}
       {
         props.type !== 'CREATE' &&
         templateState.created_date &&
@@ -196,7 +255,8 @@ function Template(props) {
                       prices={props.allDishes[dish.id].prices}
                       type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                       categoryID={catKey}
-                      key={`${catKey}_${dish.id}`}
+                      openDrawerToReplaceDish={() => openDrawer(catKey, j)}
+                      key={`${catKey}_${dish.id}_${dish.customName}`}
                       removeDish={() => removeDish(catKey, j)}
                     />
                   ))
@@ -265,7 +325,10 @@ function Template(props) {
               )}
             addDish={addDish}
             addDishWithCustomName={addDishWithCustomName}
+            replaceDish={replaceDish}
+            replaceDishWithCustomName={replaceDishWithCustomName}
             closeDrawer={closeDrawer}
+            replaceIndex={choicesDrawer.replaceIndex}
           />
         }
       </ul>

@@ -4,10 +4,10 @@ function Card(props) {
   switch (props.type) {
     case 'NORMAL':
       return (
-        <div className="dish-card -normal">
-          <div className="name">{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
+        <div className="dish-card -normal" >
+          <div className="name" onClick={props.openDrawerToReplaceDish}>{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
           
-          <Trash2 color="var(--gray)" size="1.2rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
+          <X color="var(--gray)" size="1.2rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 

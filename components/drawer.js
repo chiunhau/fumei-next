@@ -35,7 +35,9 @@ function Drawer(props) {
             closeDrawer={closeDrawer}
             addDish={addDish}
             addDishWithCustomName={addDishWithCustomName}
+            replaceDishWithCustomName={props.replaceDishWithCustomName}
             C01OptionsDishes={C01OptionsDishes}
+            replaceIndex={props.replaceIndex}
           />
           : categoryID === '-C07' ?
           <C07Panel 
@@ -44,8 +46,10 @@ function Drawer(props) {
             closeDrawer={closeDrawer}
             addDish={addDish}
             addDishWithCustomName={addDishWithCustomName}
+            replaceDishWithCustomName={props.replaceDishWithCustomName}
             C07OptionsDishes={C07OptionsDishes}
             C07MethodsDishes={C07MethodsDishes}
+            replaceIndex={props.replaceIndex}
           />
 
           :
@@ -62,7 +66,15 @@ function Drawer(props) {
                     dishID={dishKey}
                     type="ADD"
                     cb={(a, b) => {
-                      addDish(a, b);
+                      if (props.replaceIndex >= 0) {
+                        console.log(props.replaceIndex)
+                        props.replaceDish(categoryID, dishKey, props.replaceIndex)//
+                        
+                      }
+                      else {
+                        addDish(a, b);
+                      }
+                      
                       closeDrawer();
                     }}
                     key={dishKey}
@@ -173,9 +185,14 @@ function C01Panel(props) {
                   dishID="-C01-CUSTOM-OPTIONS-DISH"
                   mergedOptionsArray={makeNamesArray(optionDishes)}
                   cb={(a, b) => {
-                    // addDish(a, b);
-                    addDishWithCustomName(a, b, printArray(makeNamesArray(optionDishes)))
-                    // console.log(a, b)
+                    if (props.replaceIndex >= 0) {
+                      console.log(props.replaceIndex)
+                      props.replaceDishWithCustomName(categoryID, '-C01-CUSTOM-OPTIONS-DISH', printArray(makeNamesArray(optionDishes)), props.replaceIndex)//
+                      
+                    }
+                    else {
+                      addDishWithCustomName(a, b, printArray(makeNamesArray(optionDishes)))
+                    }
                     closeDrawer();
                   }}
                 />
@@ -349,8 +366,18 @@ function C07Panel(props) {
                   dishID="-C07-CUSTOM-OPTIONS-DISH"
                   mergedOptionsArray={makeMethodOptionArray(methodDishes, optionDishes)}
                   cb={(a, b) => {
+                    if (props.replaceIndex >= 0) {
+                      console.log(props.replaceIndex)
+                      props.replaceDishWithCustomName(categoryID, '-C07-CUSTOM-OPTIONS-DISH', printMethodOptionArray(makeMethodOptionArray(methodDishes, optionDishes)), props.replaceIndex)
+                      
+                    }
+                    else {
+                      addDishWithCustomName(a, b, printMethodOptionArray(makeMethodOptionArray(methodDishes, optionDishes)))
+                    }
+
+
                     // addDish(a, b);
-                    addDishWithCustomName(a, b, printMethodOptionArray(makeMethodOptionArray(methodDishes, optionDishes)))
+                    // addDishWithCustomName(a, b, printMethodOptionArray(makeMethodOptionArray(methodDishes, optionDishes)))
                     // console.log(a, b)
                     closeDrawer();
                   }}
