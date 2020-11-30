@@ -290,13 +290,15 @@ function Template(props) {
                 {
                   category.dishes &&
                   category.dishes.length > 0 &&
-                  props.type !== 'VIEW' &&
+                  props.type !== 'VIEW' ?
                   <AddMore 
                     mediaQuery="sm"
                     categoryID={catKey}
                     key={`${catKey}_MORE`}
                     cb={() => openDrawer(catKey)}
                   />
+                  :
+                  <div className="add-more-placeholder"></div>
                 }
               </li>
             )
@@ -350,7 +352,7 @@ function Template(props) {
         <div className="fixed-bottom">
           <div className="container">  
             <div className="d-flex justify-content-end align-items-center">
-      <p className="text-right template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，價值約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
+      <p className="text-right template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
               <button className="btn btn-success save-template" onClick={submit}>
                 {
                   props.type === 'CREATE' ?

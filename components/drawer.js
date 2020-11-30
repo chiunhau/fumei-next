@@ -24,7 +24,7 @@ function Drawer(props) {
         <div className="header">
           <div className="clickable d-flex align-items-center">
             <ChevronLeft onClick={closeDrawer}/>
-            <span onClick={closeDrawer}>所有{categoryName} </span> 
+            <span onClick={closeDrawer}>選擇{categoryName} </span> 
           </div>
         </div>
         {
