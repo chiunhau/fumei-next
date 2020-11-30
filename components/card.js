@@ -5,7 +5,15 @@ function Card(props) {
     case 'NORMAL':
       return (
         <div className="dish-card -normal" >
-          <div className="name" onClick={props.openDrawerToReplaceDish}>{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
+          <div className="number">{props.number || ''}</div>
+          <div className="name" onClick={props.openDrawerToReplaceDish}> {props.dishName} 
+          {
+            props.prices &&
+            props.prices.d !== 0 &&
+            <span className="price badge badge-warning">${props.prices && props.prices.d}</span>
+          }
+          
+          </div>
           
           <X color="var(--m-gray)" size="1.1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>

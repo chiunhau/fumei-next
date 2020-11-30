@@ -330,8 +330,62 @@
 }
 
 .template-summary {
-  margin: 4px;
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 12px;
   font-size: 1rem;
+  margin-bottom: 12px;
+
+  &.-count {
+    color: #fff;
+    background-color: var(--info);
+
+    
+
+    .number {
+      font-weight: bold;
+      color: #fff;
+
+      span {
+        font-size: .9rem;
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.-price {
+    color: #000;
+    background-color: var(--warning);
+
+    .number {
+      font-weight: bold;
+      color: #000;
+
+      span {
+        font-size: .9rem;
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.-setting {
+    .title {
+      color: var(--gray);
+    }
+  }
+
+  .title {
+    font-size: .9rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .number {
+    text-align: right;
+    font-size: 1.8rem;
+    line-height: 1;
+  }
 
   .highlight {
     color: var(--red);

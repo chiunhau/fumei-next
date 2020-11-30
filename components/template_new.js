@@ -143,6 +143,14 @@ function Template(props) {
     
   }
 
+  const calculateGlobalIndex = (catID, indexWithinCat) => {
+    const filterEmptyCats = R.filter(c => !R.isEmpty(c.dishes) && !R.isNil(c.dishes), templateState.categories_dishes);
+    const flattened = R.flatten(Object.keys(filterEmptyCats).map(key => filterEmptyCats[key].dishes.map((d, i) => (`${key}_${i}`))))
+
+    return R.indexOf(`${catID}_${indexWithinCat}`, flattened)
+
+  }
+
   useEffect(() => {
     console.log('init template states')
     console.log(props.categoriesDishes)
@@ -164,84 +172,93 @@ function Template(props) {
           <TemplateHeader templateID={props.templateID} type={props.type}/>
         }
       <div className="row">
-      <div className="information col-12 col-md-3">
-        <div style={{position: 'sticky', top: '80px'}}>
+      <div className="information col-12 col-md-4 col-lg-3">
+        <div style={{position: 'sticky', top: '78px'}}>
         
-        
-        <h3 style={{fontSize: '1.4rem'}}>
+        <div className="template-summary -setting">
+          <div className="title">菜單設定</div>
+        <h3 style={{fontSize: '1.3rem'}}>
 
-          {
-            props.type !== 'VIEW' ?
-            <EdiText
-            type="text"
-            value={templateState.name}
-            onSave={handleSaveTemplateName}
-            editOnViewClick={true}
-            // submitOnUnfocus={true}
-            hideIcons={true}
-            submitOnEnter={true}
-            mainContainerClassName="ediTextContainer"
-            editContainerClassName="ediTextEditContainer"
-            editButtonContent={<Edit2/>}
-            saveButtonContent={<Check/>}
-            cancelButtonContent={<X/>}
-            editButtonClassName="btn"
-            saveButtonClassName="btn btn-outline-success"
-            cancelButtonClassName="btn btn-outline-danger"
-          />
-          : templateState.name
+        {
+          props.type !== 'VIEW' ?
+          <EdiText
+          type="text"
+          value={templateState.name}
+          onSave={handleSaveTemplateName}
+          editOnViewClick={true}
+          // submitOnUnfocus={true}
+          hideIcons={true}
+          submitOnEnter={true}
+          mainContainerClassName="ediTextContainer"
+          editContainerClassName="ediTextEditContainer"
+          editButtonContent={<Edit2/>}
+          saveButtonContent={<Check/>}
+          cancelButtonContent={<X/>}
+          editButtonClassName="btn"
+          saveButtonClassName="btn btn-outline-success"
+          cancelButtonClassName="btn btn-outline-danger"
+        />
+        : templateState.name
 
-          }
-          
+        }
+
         </h3>
-        
+
         {/* <p> */}
         <div className="notes-wrapper d-flex">
-          <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
+        <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
         {
-            props.type !== 'VIEW' ?
-            <EdiText
-            type="text"
-            value={templateState.note}
-            onSave={handleSaveTemplateNote}
-            editOnViewClick={true}
-            // submitOnUnfocus={true}
-            hideIcons={true}
-            submitOnEnter={true}
-            mainContainerClassName="ediTextContainer"
-            editContainerClassName="ediTextEditContainer"
-            editButtonContent={<Edit2 size="0.9rem"/>}
-            saveButtonContent={<Check/>}
-            cancelButtonContent={<X/>}
-            editButtonClassName="btn"
-            saveButtonClassName="btn btn-outline-success"
-            cancelButtonClassName="btn btn-outline-danger"
-          />
-          : templateState.note
+          props.type !== 'VIEW' ?
+          <EdiText
+          type="text"
+          value={templateState.note}
+          onSave={handleSaveTemplateNote}
+          editOnViewClick={true}
+          // submitOnUnfocus={true}
+          hideIcons={true}
+          submitOnEnter={true}
+          mainContainerClassName="ediTextContainer"
+          editContainerClassName="ediTextEditContainer"
+          editButtonContent={<Edit2 size="0.9rem"/>}
+          saveButtonContent={<Check/>}
+          cancelButtonContent={<X/>}
+          editButtonClassName="btn"
+          saveButtonClassName="btn btn-outline-success"
+          cancelButtonClassName="btn btn-outline-danger"
+        />
+        : templateState.note
 
-          }
-        </div>
-          
-          
-          
-        {/* </p> */}
-        {
-          props.type !== 'CREATE' &&
-          templateState.created_date &&
-          <p style={{fontSize: '.9rem', color: 'var(--gray)'}}>建立日期：{templateState.created_date.slice(0, 10)}</p>
         }
+        </div>
+
+        {/* {
+        props.type !== 'CREATE' &&
+        templateState.created_date &&
+        <p style={{fontSize: '.9rem', color: 'var(--gray)'}}>建立：{templateState.created_date.slice(0, 10)}</p>
+        } */}
         {
-          props.type === 'VIEW' &&
-          templateState.categories_dishes && 
+        props.type === 'VIEW' &&
+        templateState.categories_dishes && 
         <p>共 {calculateCounts()} 道菜，約 {calculateSum()} 元</p>
         }
+        </div>
+        
         {
         props.type !== 'VIEW' &&
         !R.isNil(templateState.categories_dishes) &&
         !R.isNil(props.allCategories) &&
         !R.isNil(props.allDishes) &&
           <div className="">
-              <p className="template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，<br/>約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
+            <div className="template-summary -count">
+              <div className="title">已選擇</div>
+              <div className="number">{calculateCounts()}<span> 道</span></div>
+            </div>
+
+            <div className="template-summary -price">
+              <div className="title">總價約</div>
+              <div className="number">${calculateSum()}<span> 元</span></div>
+            </div>
+              {/* <p className="template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，<br/>約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p> */}
             <button className="btn btn-success btn-block save-template" onClick={submit}>
               {
                 props.type === 'CREATE' ?
@@ -260,7 +277,7 @@ function Template(props) {
       </div>
       </div>
       
-      <div className="template-area col-12 col-md-9">
+      <div className="template-area col-12 col-md-8 col-lg-9">
       <ul className="categories">
         {
           !R.isNil(templateState.categories_dishes) &&
@@ -287,6 +304,7 @@ function Template(props) {
                       dishID={dish.id}
                       dishName={dish.customName || props.allDishes[dish.id].name || '找不到名稱'}
                       prices={props.allDishes[dish.id].prices}
+                      number={calculateGlobalIndex(catKey, j) + 1 || 0}
                       type={`${props.type === 'VIEW' ? 'VIEW' : 'NORMAL'}`}
                       categoryID={catKey}
                       openDrawerToReplaceDish={() => openDrawer(catKey, j)}
