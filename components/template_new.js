@@ -158,81 +158,109 @@ function Template(props) {
   }, [props.currentTemplate])
 
   return (
-    <div className="dish-template">
-
+    <div className="dish-template container">
       {
-        props.type !== 'VIEW' &&
-        <TemplateHeader templateID={props.templateID} type={props.type}/>
-      }
-      
-      <h3>
+          props.type !== 'VIEW' &&
+          <TemplateHeader templateID={props.templateID} type={props.type}/>
+        }
+      <div className="row">
+      <div className="information col-12 col-md-3">
+        <div style={{position: 'sticky', top: '80px'}}>
+        
+        
+        <h3 style={{fontSize: '1.4rem'}}>
 
+          {
+            props.type !== 'VIEW' ?
+            <EdiText
+            type="text"
+            value={templateState.name}
+            onSave={handleSaveTemplateName}
+            editOnViewClick={true}
+            // submitOnUnfocus={true}
+            hideIcons={true}
+            submitOnEnter={true}
+            mainContainerClassName="ediTextContainer"
+            editContainerClassName="ediTextEditContainer"
+            editButtonContent={<Edit2/>}
+            saveButtonContent={<Check/>}
+            cancelButtonContent={<X/>}
+            editButtonClassName="btn"
+            saveButtonClassName="btn btn-outline-success"
+            cancelButtonClassName="btn btn-outline-danger"
+          />
+          : templateState.name
+
+          }
+          
+        </h3>
+        
+        {/* <p> */}
+        <div className="notes-wrapper d-flex">
+          <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
         {
-          props.type !== 'VIEW' ?
-          <EdiText
-          type="text"
-          value={templateState.name}
-          onSave={handleSaveTemplateName}
-          editOnViewClick={true}
-          // submitOnUnfocus={true}
-          hideIcons={true}
-          submitOnEnter={true}
-          mainContainerClassName="ediTextContainer"
-          editContainerClassName="ediTextEditContainer"
-          editButtonContent={<Edit2/>}
-          saveButtonContent={<Check/>}
-          cancelButtonContent={<X/>}
-          editButtonClassName="btn"
-          saveButtonClassName="btn btn-outline-success"
-          cancelButtonClassName="btn btn-outline-danger"
-        />
-        : templateState.name
+            props.type !== 'VIEW' ?
+            <EdiText
+            type="text"
+            value={templateState.note}
+            onSave={handleSaveTemplateNote}
+            editOnViewClick={true}
+            // submitOnUnfocus={true}
+            hideIcons={true}
+            submitOnEnter={true}
+            mainContainerClassName="ediTextContainer"
+            editContainerClassName="ediTextEditContainer"
+            editButtonContent={<Edit2 size="0.9rem"/>}
+            saveButtonContent={<Check/>}
+            cancelButtonContent={<X/>}
+            editButtonClassName="btn"
+            saveButtonClassName="btn btn-outline-success"
+            cancelButtonClassName="btn btn-outline-danger"
+          />
+          : templateState.note
 
+          }
+        </div>
+          
+          
+          
+        {/* </p> */}
+        {
+          props.type !== 'CREATE' &&
+          templateState.created_date &&
+          <p style={{fontSize: '.9rem', color: 'var(--gray)'}}>建立日期：{templateState.created_date.slice(0, 10)}</p>
         }
-        
-      </h3>
-       
-      {/* <p> */}
-      <div className="notes-wrapper d-flex">
-        <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
-      {
-          props.type !== 'VIEW' ?
-          <EdiText
-          type="text"
-          value={templateState.note}
-          onSave={handleSaveTemplateNote}
-          editOnViewClick={true}
-          // submitOnUnfocus={true}
-          hideIcons={true}
-          submitOnEnter={true}
-          mainContainerClassName="ediTextContainer"
-          editContainerClassName="ediTextEditContainer"
-          editButtonContent={<Edit2 size="0.9rem"/>}
-          saveButtonContent={<Check/>}
-          cancelButtonContent={<X/>}
-          editButtonClassName="btn"
-          saveButtonClassName="btn btn-outline-success"
-          cancelButtonClassName="btn btn-outline-danger"
-        />
-        : templateState.name
-
+        {
+          props.type === 'VIEW' &&
+          templateState.categories_dishes && 
+        <p>共 {calculateCounts()} 道菜，約 {calculateSum()} 元</p>
         }
+        {
+        props.type !== 'VIEW' &&
+        !R.isNil(templateState.categories_dishes) &&
+        !R.isNil(props.allCategories) &&
+        !R.isNil(props.allDishes) &&
+          <div className="">
+              <p className="template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，<br/>約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
+            <button className="btn btn-success btn-block save-template" onClick={submit}>
+              {
+                props.type === 'CREATE' ?
+                '儲存'
+                :
+                '儲存'
+              }
+            </button>
+            {
+              props.type !== 'CREATE' &&
+              <button className="btn btn-block btn-outline-danger" onClick={confirmDelete}>刪除菜單</button>
+            }
+            
+          </div>
+      }
       </div>
-        
-        
-        
-      {/* </p> */}
-      {
-        props.type !== 'CREATE' &&
-        templateState.created_date &&
-        <p style={{fontSize: '.9rem', color: 'var(--gray)'}}>建立日期：{templateState.created_date.slice(0, 10)}</p>
-      }
-      {
-        props.type === 'VIEW' &&
-        templateState.categories_dishes && 
-      <p>共 {calculateCounts()} 道菜，約 {calculateSum()} 元</p>
-      }
-      <hr/>
+      </div>
+      
+      <div className="template-area col-12 col-md-9">
       <ul className="categories">
         {
           !R.isNil(templateState.categories_dishes) &&
@@ -246,6 +274,7 @@ function Template(props) {
                 {
                     props.type !== 'VIEW' &&
                   <div className="header">
+                    {/* <span className="number">{i+1}</span> */}
                     <h4 className="name">{props.allCategories[catKey].name}</h4>
                   </div>
                 }
@@ -339,12 +368,9 @@ function Template(props) {
           />
         }
       </ul>
-      <hr/>
-      {
-        props.type !== 'VIEW' && props.type !== 'CREATE' &&
-        <button className="btn btn-outline-danger btn-sm" onClick={confirmDelete}>刪除菜單</button>
-      }
-      {
+      
+      </div>  
+      {/* {
         props.type !== 'VIEW' &&
         !R.isNil(templateState.categories_dishes) &&
         !R.isNil(props.allCategories) &&
@@ -365,8 +391,9 @@ function Template(props) {
             </div>
           </div>
         </div>
-      }
+      } */}
       
+      </div>
     </div>
   )
 }

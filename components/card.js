@@ -7,7 +7,7 @@ function Card(props) {
         <div className="dish-card -normal" >
           <div className="name" onClick={props.openDrawerToReplaceDish}>{props.dishName} <span className="price badge badge-light badge-pill">${props.prices && props.prices.d}</span></div>
           
-          <X color="var(--gray)" size="1.2rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
+          <X color="var(--m-gray)" size="1.1rem" onClick={() => props.removeDish(props.categoryID, props.dishID)} style={{minWidth: '20px'}}/>
         </div>
       )
 
@@ -23,7 +23,7 @@ function Card(props) {
       return (
         <div className="dish-card -empty" onClick={props.cb}>
           <PlusCircle color="var(--red)" size="1.2rem"/>
-        <span>&nbsp;加入{props.categoryName}</span>
+        <span>&nbsp;{props.categoryName}</span>
         </div>
       )
 

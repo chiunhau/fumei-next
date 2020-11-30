@@ -1,5 +1,12 @@
 .dish-template {
   padding-bottom: 100px;
+
+
+
+  .template-area  {
+    border-left: 1px solid var(--light-gray);
+    padding-left: 20px;
+  }
   .categories {
     margin: 0;
     padding: 0;
@@ -7,7 +14,7 @@
 
     > .category {
       position: relative;
-      padding: 12px 0;
+      padding: 6px 0;
       // border-bottom: 1px solid var(--light-gray);
       display: flex;
       align-items: flex-start;
@@ -19,25 +26,25 @@
 
       > .header {
         // margin-bottom: 10px;
-        width: 58px;
+        width:72px;
 
         > .number {
           display: inline-block;
-          width: 20px;
-          height: 20px;
-          font-size: 12px;
+          width: 24px;
+          height: 24px;
+          font-size: .9rem;
           color: var(--red);
-          border: 1px solid var(--red);
+          border: 2px solid var(--red);
           line-height: 20px;
           text-align: center;
           border-radius: 50%;
+          font-weight: bold;
         }
   
         > .name {
           display: inline-block;
-          font-size: 1.1rem;
+          font-size: 1rem;
           color: var(--dark);
-          // margin-left: 8px;
           font-weight: normal;
           margin: 0;
           height: 60px;
@@ -108,7 +115,7 @@
           button {
             text-align: right;
             position: absolute;
-            bottom: 14px;
+            bottom: 8px;
             height: 60px;
             width: 30px;
             padding: 0;
@@ -268,17 +275,17 @@
         .option-card {
           display: inline-flex;
           background-color:#fff;
-          height: 52px;
-          padding: 0 20px;
+          height: 44px;
+          padding: 0 12px;
           justify-content: center;
           align-items: center;
-          margin: 8px;
+          margin: 6px;
           box-sizing: border-box;
-          color: var(--gray);
+          color: #666;
           border: 2px solid #fff;
           opacity: .9;
           border-radius: 8px;
-          font-size: 1.2rem;
+          font-size: 1.1rem;
 
           &.-active {
             background-color: #fff;
@@ -320,13 +327,14 @@
   z-index: 100;
   box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.05);
 
-  .template-summary {
-    margin: 4px;
-    font-size: 1rem;
+}
 
-    .highlight {
-      color: var(--red);
-    }
+.template-summary {
+  margin: 4px;
+  font-size: 1rem;
 
+  .highlight {
+    color: var(--red);
   }
+
 }

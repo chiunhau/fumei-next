@@ -11,6 +11,7 @@ function Create(props) {
     props.fetchAllCategories();
     props.fetchAllDishes();
     props.fetchEmptyTemplate();
+    props.fetchKeywords();
     
   }, [])
 
@@ -29,6 +30,7 @@ function Create(props) {
               alert('新增成功');
               router.push(`/edit/${res.path.pieces_[1]}`) //DANGEROUS
             })}
+            allKeywords={props.allKeywords}
             type="CREATE"
           />
         </div>
@@ -42,7 +44,8 @@ const mapStateToProps = (state, ownProps) => ({
   currentTemplate: state.data[`/default_template`],
   allDishesNames: state.data['/categories_dishes'],
   allDishes: state.data['/all_dishes'],
-  allCategories: state.data['/all_categories']
+  allCategories: state.data['/all_categories'],
+  allKeywords: state.data['/keywords']
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -65,6 +68,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchData({
       path: `/default_template`,
       id: `/default_template`,
+    }))
+  },
+
+  fetchKeywords: () => {
+    dispatch(fetchData({
+      path: `/keywords`,
+      id: `/keywords`,
     }))
   },
 
