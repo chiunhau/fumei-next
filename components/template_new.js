@@ -193,8 +193,9 @@ function Template(props) {
       </h3>
        
       {/* <p> */}
-        
-        {
+      <div className="notes-wrapper d-flex">
+        <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
+      {
           props.type !== 'VIEW' ?
           <EdiText
           type="text"
@@ -206,7 +207,7 @@ function Template(props) {
           submitOnEnter={true}
           mainContainerClassName="ediTextContainer"
           editContainerClassName="ediTextEditContainer"
-          editButtonContent={<Edit2/>}
+          editButtonContent={<Edit2 size="0.9rem"/>}
           saveButtonContent={<Check/>}
           cancelButtonContent={<X/>}
           editButtonClassName="btn"
@@ -216,6 +217,9 @@ function Template(props) {
         : templateState.name
 
         }
+      </div>
+        
+        
         
       {/* </p> */}
       {
@@ -228,6 +232,7 @@ function Template(props) {
         templateState.categories_dishes && 
       <p>共 {calculateCounts()} 道菜，約 {calculateSum()} 元</p>
       }
+      <hr/>
       <ul className="categories">
         {
           !R.isNil(templateState.categories_dishes) &&
@@ -269,7 +274,7 @@ function Template(props) {
                     cb={() => openDrawer(catKey)}
                   />
                 }
-                {
+                {/* {
                   category.dishes &&
                   category.dishes.length > 0 &&
                   props.type !== 'VIEW' &&
@@ -279,7 +284,7 @@ function Template(props) {
                     key={`${catKey}_MORE`}
                     cb={() => openDrawer(catKey)}
                   />
-                }
+                } */}
                 
                 </div>
                 {
@@ -370,8 +375,8 @@ function AddMore(props) {
   return (
     <span className={`add-more -${props.mediaQuery}`}>
       <button className="btn" onClick={props.cb}>
-          {/* <PlusCircle color="var(--red)" size="1.2rem"/> */}
-          <div style={{color: 'var(--red)', textDecoration: 'underline', fontSize: '15px'}}>+更多</div>
+          <PlusCircle color="var(--red)" size="1.2rem"/>
+          {/* <div style={{color: 'var(--red)', textDecoration: 'underline', fontSize: '15px'}}>+更多</div> */}
       </button>
     </span>
   )

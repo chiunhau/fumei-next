@@ -25,7 +25,8 @@
 
     .price {
       font-size: .8rem;
-      color: var(--red);
+      color: var(--gray);
+      font-weight: normal;
     }
   }
 
@@ -89,3 +90,9 @@
     cursor: pointer;
   }
 }
+// @media (max-width: 400px) {
+//   .dish-card {
+//     min-height: 48px;
+//     padding: 0 10px;
+//   }
+// }

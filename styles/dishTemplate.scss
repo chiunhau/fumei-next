@@ -62,63 +62,35 @@
 
       }
 
-      .add-more {
-        text-align: right;
+
+      .add-more.-sm {
         padding: 0;
-        // width: 60px;
-        // height: 60px;
-        // border-left: 1px solid var(--m-gray);
-        // margin-left: 6px;
+        flex: 0 0 24px;
+        width: 30px;
+        height: 60px;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-end;
 
         button {
+          text-align: right;
           position: absolute;
-          // bottom: 2px;
-          // right: 0;
-          // height: 60px;
-          // width: 60px;
+          bottom: 9px;
+          height: 60px;
+          width: 24px;
           padding: 0;
           font-size: .9rem;
           color: var(--gray);
-          // display: flex;
-          // align-items: center;
-          // justify-content: center;
-        }
-
-      }
-
-      @media (max-width: 400px) {
-        .add-more.-xs {
-          text-align: center;
-          padding: 0;
-          height: 20px;
-          // border-left: 1px solid var(--m-gray);
-          display: flex;
-          align-items: flex-start;
-          justify-content: flex-end;
-  
-          button {
-            height: 20px;
-            padding: 0;
-            font-size: .9rem;
-            color: var(--gray);
-          }
-  
-        }
-        .add-more.-sm {
-          display: none;
         }
       }
+
 
       @media (min-width: 400.1px) {
         .add-more.-sm {
           padding: 0;
-          flex: 0 0 50px;
-          width: 50px;
+          flex: 0 0 36px;
+          width: 30px;
           height: 60px;
-          // border-left: 1px solid var(--m-gray);
           display: flex;
           align-items: flex-start;
           justify-content: flex-end;
@@ -126,17 +98,13 @@
           button {
             text-align: right;
             position: absolute;
-            bottom: 0px;
+            bottom: 18px;
             height: 60px;
-            width: 50px;
+            width: 30px;
             padding: 0;
             font-size: .9rem;
             color: var(--gray);
           }
-  
-        }
-        .add-more.-xs {
-          display: none;
         }
       }
 

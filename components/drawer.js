@@ -34,6 +34,7 @@ function Drawer(props) {
             categoryDishes={categoryDishes}
             closeDrawer={closeDrawer}
             addDish={addDish}
+            replaceDish={props.replaceDish}
             addDishWithCustomName={addDishWithCustomName}
             replaceDishWithCustomName={props.replaceDishWithCustomName}
             C01OptionsDishes={C01OptionsDishes}
@@ -46,6 +47,7 @@ function Drawer(props) {
             closeDrawer={closeDrawer}
             addDish={addDish}
             addDishWithCustomName={addDishWithCustomName}
+            replaceDish={props.replaceDish}
             replaceDishWithCustomName={props.replaceDishWithCustomName}
             C07OptionsDishes={C07OptionsDishes}
             C07MethodsDishes={C07MethodsDishes}
@@ -140,7 +142,15 @@ function C01Panel(props) {
                     dishID={dishKey}
                     type="ADD"
                     cb={(a, b) => {
-                      addDish(a, b);
+                      if (props.replaceIndex >= 0) {
+                        console.log(props.replaceIndex)
+                        props.replaceDish(categoryID, dishKey, props.replaceIndex)//
+                        
+                      }
+                      else {
+                        addDish(a, b);
+                      }
+                      
                       closeDrawer();
                     }}
                     key={dishKey}
@@ -301,7 +311,15 @@ function C07Panel(props) {
                     dishID={dishKey}
                     type="ADD"
                     cb={(a, b) => {
-                      addDish(a, b);
+                      if (props.replaceIndex >= 0) {
+                        console.log(props.replaceIndex)
+                        props.replaceDish(categoryID, dishKey, props.replaceIndex)//
+                        
+                      }
+                      else {
+                        addDish(a, b);
+                      }
+                      
                       closeDrawer();
                     }}
                     key={dishKey}
