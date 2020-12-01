@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, pushData } from '../actions/fetchActions';
-import Template from '../components/template_new';
+import Template from '../components/template';
 import * as R from 'ramda';
 
 function Create(props) {

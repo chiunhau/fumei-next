@@ -94,16 +94,6 @@ const shouldFetchData = (state, config) => {
   }
 }
 
-// export const fetchData = (config) => {
-//   return (dispatch, getState) => {
-//     if (shouldFetchData(getState(), config)) {
-//       dispatch(requestData(config))
-//       return axios.get(config.url)
-//         .then(response => dispatch(receiveData(config, response)))
-//     }
-//   }
-// }
-
 export const fetchData = (config) => {
   return (dispatch, getState) => {
     if (config.forceFetch || shouldFetchData(getState(), config)) {
@@ -130,7 +120,6 @@ export const pushData = (config) => {
   return (dispatch, getState) => {
     dispatch(requestPush(config))
     return db.ref(config.path).push(config.data).then(res => {
-      // console.log(res.path.pieces_[1])
       dispatch(receivePush(config, res))
     }).catch(e => alert(e))
   }

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
-import { fetchData, updateData } from '../../actions/fetchActions';
-import Template from '../../components/template_new';
-import * as R from 'ramda';
+import { fetchData } from '../../actions/fetchActions';
+import TemplateExport from '../../components/templateExport';
 
 function View(props) {
   const router = useRouter()
@@ -13,27 +12,22 @@ function View(props) {
       props.fetchAllDishes();
       props.fetchTemplate(router.query.id);
     }
-    
   }, [router])
 
   return (
-    <div className="page-create">
-
-      {
-          props.currentTemplate &&
-          <div className="container">
-            <Template 
-              categoriesDishes={props.currentTemplate.categories_dishes}
-              allCategories={props.allCategories}
-              allDishes={props.allDishes}
-              allDishesNames={props.allDishesNames}
-              currentTemplate={props.currentTemplate}
-              handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.updateTemplate(router.query.id, data)}
-              type="VIEW"
-            />
-          </div>
-      }
+    <div className="page-view">
+    {
+      props.allDishes &&
+      props.allCategories &&
+      props.currentTemplate &&
+      <div className="container">
+        <TemplateExport
+          allCategories={props.allCategories}
+          allDishes={props.allDishes}
+          currentTemplate={props.currentTemplate}
+        />
+      </div>
+    }
     </div>
   )
 }
@@ -41,9 +35,7 @@ function View(props) {
 const mapStateToProps = (state, ownProps) => ({
   allCategories: state.data['/all_categories'],
   allDishes: state.data['/all_dishes'],
-  template: state.template,
   currentTemplate: state.data[`/templates/${ownProps.router.query.id}`],
-  allDishesNames: state.data['/categories_dishes']
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -66,14 +58,6 @@ const mapDispatchToProps = (dispatch) => ({
       path: `/templates/${id}`,
       id: `/templates/${id}`,
       forceFetch: true
-    }))
-  },
-
-  updateTemplate: (id, data) => {
-    dispatch(updateData({
-      path: `/templates/${id}`,
-      data,
-      cb: () => alert('儲存成功')
     }))
   },
 })

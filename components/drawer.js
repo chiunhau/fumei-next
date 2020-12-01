@@ -402,9 +402,6 @@ function C07Panel(props) {
                 />
               </div>
             }
-            
-            
-
           </div>
         }
       </div>

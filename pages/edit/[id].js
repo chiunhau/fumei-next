@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { useRouter, withRouter } from 'next/router'
 import { fetchData, updateData, deleteData } from '../../actions/fetchActions';
-import Template from '../../components/template_new';
+import Template from '../../components/template';
 
 function Edit(props) {
   const router = useRouter()
@@ -30,13 +30,18 @@ function Edit(props) {
               currentTemplate={props.currentTemplate}
               handleDeleteDish={props.deleteDish}
               handleSubmit={(data) => props.updateTemplate(router.query.id, data, () => {
-                alert('儲存成功');
+                // alert('儲存成功');
+                console.log('save successfully')
+              })}
+              partialUpdate={(innerPath, data) => props.updateTemplate(router.query.id, innerPath, data, () => {
+                console.log('partial update')
               })}
               templateID={router.query.id}
               handleDelete={() => props.deleteTemplate(router.query.id, () => {
                 alert('已刪除');
                 router.push('/');
               })}
+              type="EDIT"
             />
         
           </div>
@@ -73,6 +78,14 @@ const mapDispatchToProps = (dispatch) => ({
       path: `/templates/${id}`,
       id: `/templates/${id}`,
       forceFetch: true
+    }))
+  },
+
+  updateTemplateField: (id, innerPath, data, cb) => {
+    dispatch(updateData({
+      path: `/templates/${id}/${innerPath}`,
+      data,
+      cb
     }))
   },
 

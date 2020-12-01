@@ -18,18 +18,14 @@ function TemplateHeader(props) {
             <div onClick={handleClickBack} className="col-4 text-left" ><button className="btn" style={{color: 'var(--red)', display: 'inline-flex', padding: '0', fontSize: '1.1rem'}}><ChevronLeft color="var(--red)" size="1.5rem"/><span>返回</span></button></div>
             <div className="col-4 text-center">
               <h2 className="title">
-                {
-                  props.type !== 'CREATE' ?
-                  '編輯菜單'
-                  :
-                  '建立菜單'
-                }
-                
+                { props.type !== 'CREATE' ? '編輯菜單' : '建立菜單' }                
               </h2>
             </div>
             {
-              props.type !== 'CREATE' &&
-              <div className="col-4 text-right"><a href={`/view/${props.templateID}`} target="_blank" style={{fontWeight: 'normal', display: 'flex', justifyContent: 'flex-end'}}><Share size="1.5rem"/><span className="d-none d-md-inline">匯出</span></a></div>
+              props.type === 'CREATE' ?
+              <div className="col-4 text-right"><button className="btn" onClick={props.handleSubmit} style={{color: 'var(--red)'}}>完成</button></div>
+              :
+              <div className="col-4 text-right"><a href={`/view/${props.templateID}`} target="_blank" style={{fontWeight: 'normal', display: 'flex', justifyContent: 'flex-end'}}><Share size="1.3rem"/><span className="d-none d-md-inline">分享</span></a></div>
             }
             
           </div>
