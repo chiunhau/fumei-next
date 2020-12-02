@@ -96,6 +96,13 @@ function Template(props) {
     })
   }
 
+  const handleSaveTemplateTableNum = (val) => {
+    setTemplateState({
+      ...templateState,
+      table_num: val
+    })
+  }
+
   const confirmDelete = () => {
     var yes = confirm('確定要刪除嗎？');
     if (yes) {
@@ -156,20 +163,23 @@ function Template(props) {
       <div className="information col-12 col-md-4 col-lg-3">
         <div style={{position: 'sticky', top: '78px'}}>
           <div className="template-summary -setting">
-            <div className="title">菜單設定</div>
-            <h3 style={{fontSize: '1.3rem'}}>
+            <div className="title">菜單名稱</div>
+            <h3 style={{fontSize: '1.2rem'}}>
               <EdiTextWrapper value={templateState.name} onSave={handleSaveTemplateName} />
             </h3>
-            <div className="notes-wrapper d-flex">
-              <span style={{fontSize: '0.9rem', color: 'var(--gray)'}}>備註：</span>
-              <EdiTextWrapper value={templateState.note} onSave={handleSaveTemplateNote}/>
-            </div>
+            <hr/>
+            <div className="title">桌號</div>
+            <EdiTextWrapper value={templateState.table_num} onSave={handleSaveTemplateTableNum}/>
+            <hr/>
+            <div className="title">菜單備註</div>
+            <EdiTextWrapper value={templateState.note} onSave={handleSaveTemplateNote}/>
+            
           </div>
         {
           !R.isNil(templateState.categories_dishes) &&
           !R.isNil(props.allCategories) &&
           !R.isNil(props.allDishes) &&
-            <div className="">
+            <div className="d-none d-sm-block">
               <div className="template-summary -count">
                 <div className="title">已選擇</div>
                 <div className="number">{calculateCounts()}<span> 道</span></div>
@@ -263,26 +273,21 @@ function Template(props) {
             />
           }
         </ul>
+        <div class="alert alert-success template-bottom-summary d-block d-sm-none" role="alert">
+          已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，約 <span className="highlight">{calculateSum()} 元</span>&nbsp;
+        </div>
+        {
+          props.type === 'EDIT' && 
+          <button className="btn btn-sm btn-danger d-block d-sm-none" onClick={confirmDelete}><Trash2 size="1rem"/> 刪除菜單</button>
+        } 
       </div>  
       {/* {
-        props.type !== 'VIEW' &&
         !R.isNil(templateState.categories_dishes) &&
         !R.isNil(props.allCategories) &&
         !R.isNil(props.allDishes) &&
         <div className="fixed-bottom">
           <div className="container">  
-            <div className="d-flex justify-content-end align-items-center">
-      <p className="text-right template-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
-              <button className="btn btn-success save-template" onClick={submit}>
-                {
-                  props.type === 'CREATE' ?
-                  '儲存'
-                  :
-                  '儲存'
-                }
-              </button>
-              
-            </div>
+            <p className="template-bottom-summary">已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，約 <span className="highlight">{calculateSum()} 元</span>&nbsp;</p>
           </div>
         </div>
       } */}

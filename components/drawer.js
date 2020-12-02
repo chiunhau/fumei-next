@@ -2,6 +2,7 @@ import {X, Plus, ChevronLeft } from 'react-feather';
 import Card from './card';
 import * as R from 'ramda';
 import {useEffect, useState} from 'react';
+import { Form, Field } from 'react-final-form'
 
 function Drawer(props) {
   const {
@@ -245,6 +246,7 @@ function C07Panel(props) {
   const [activeTab, setActiveTab] = useState(0);
   const [optionDishes, setOptionDishes] = useState({});
   const [methodDishes, setMethodDishes] = useState({});
+  const [customName, setCustomName] = useState('');
 
   useEffect(() => {
     console.log(props.C07OptionsDishes)
@@ -294,10 +296,11 @@ function C07Panel(props) {
       <div className="panel-tabs">
         <div className={`panel-tab ${activeTab === 0 ? '-active' : ''}`} onClick={() => setActiveTab(0)}>自由搭配</div>
         <div className={`panel-tab ${activeTab === 1 ? '-active' : ''}`} onClick={() => setActiveTab(1)}>常用</div>
+        <div className={`panel-tab ${activeTab === 2 ? '-active' : ''}`} onClick={() => setActiveTab(2)}>手動輸入</div>
       </div>
       <div className="panel-workspace">
         {
-          activeTab === 1 ?
+          activeTab === 1 &&
           <div className="combined">
             <div className="dishes">
             { 
@@ -329,7 +332,11 @@ function C07Panel(props) {
             }
             </div>
           </div>
-          :
+          }
+
+
+          {
+          activeTab === 0 &&
           <div className="free">
             1. 選擇料理方式：
             <ul className="options">
@@ -403,6 +410,38 @@ function C07Panel(props) {
               </div>
             }
           </div>
+        }
+        {
+          activeTab === 2 &&
+          <div className="">
+              <div className="">
+                1. 手動輸入菜色名稱：
+                <form action="">
+                <div className="form-group">
+                    <input type="text" className="form-control" id="exampleInputEmail1" value={customName} onChange={e => setCustomName(e.target.value)}/>
+                  </div>
+                </form>
+              </div>
+                <div style={{marginBottom: '12px'}}>2. 完成組合後點選右方加入：</div>
+                
+                <Card 
+                  type="ADD"
+                  dishName={customName}
+                  categoryID="-C07"
+                  dishID="-C07-CUSTOM-DISH"
+                  cb={(a, b) => {
+                    if (props.replaceIndex >= 0) {
+                      console.log(props.replaceIndex)
+                      props.replaceDishWithCustomName(categoryID, '-C07-CUSTOM-DISH', customName, props.replaceIndex)
+                      
+                    }
+                    else {
+                      addDishWithCustomName(categoryID, '-C07-CUSTOM-DISH', customName)
+                    }
+                    closeDrawer();
+                  }}
+                />
+              </div>
         }
       </div>
 

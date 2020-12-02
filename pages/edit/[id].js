@@ -21,30 +21,27 @@ function Edit(props) {
   return (
     <div className="page-create">      
       {
-          props.currentTemplate &&
-          <div className="container">
-            <Template 
-              categoriesDishes={props.currentTemplate.categories_dishes}
-              allCategories={props.allCategories}
-              allDishes={props.allDishes}
-              currentTemplate={props.currentTemplate}
-              handleDeleteDish={props.deleteDish}
-              handleSubmit={(data) => props.updateTemplate(router.query.id, data, () => {
-                // alert('儲存成功');
-                console.log('save successfully')
-              })}
-              partialUpdate={(innerPath, data) => props.updateTemplate(router.query.id, innerPath, data, () => {
-                console.log('partial update')
-              })}
-              templateID={router.query.id}
-              handleDelete={() => props.deleteTemplate(router.query.id, () => {
-                alert('已刪除');
-                router.push('/');
-              })}
-              type="EDIT"
-            />
-        
-          </div>
+        props.currentTemplate &&
+        <Template 
+          categoriesDishes={props.currentTemplate.categories_dishes}
+          allCategories={props.allCategories}
+          allDishes={props.allDishes}
+          currentTemplate={props.currentTemplate}
+          handleDeleteDish={props.deleteDish}
+          handleSubmit={(data) => props.updateTemplate(router.query.id, data, () => {
+            // alert('儲存成功');
+            console.log('save successfully')
+          })}
+          partialUpdate={(innerPath, data) => props.updateTemplate(router.query.id, innerPath, data, () => {
+            console.log('partial update')
+          })}
+          templateID={router.query.id}
+          handleDelete={() => props.deleteTemplate(router.query.id, () => {
+            alert('已刪除');
+            router.push('/');
+          })}
+          type="EDIT"
+        />
       }
     </div>
   )

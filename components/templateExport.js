@@ -18,6 +18,10 @@ function TemplateExport(props) {
     return props.currentTemplate.note || '無備註'
   }
 
+  const getTemplateTableNum = () => {
+    return props.currentTemplate.table_num || '無桌號'
+  }
+
   const getTemplateLength = () => {
     return flattenDishes().length
   }
@@ -26,15 +30,15 @@ function TemplateExport(props) {
     <div className="template-export">
       <h3>{getTemplateName()}</h3>
       <p>備註：{getTemplateNote()}</p>
-      <p>已選擇： {getTemplateLength()} 道</p>
-      <ul>
+      <p>桌號：{getTemplateTableNum()}</p>
+      <ol>
       {
         flattenDishes()
           .map((d, i) => (
-            <li key={`${d.id}_${d.i}`}>{getDishName(d)}</li>
+            <li key={`${d.id}_${d.i}`}> {getDishName(d)}</li>
           )) 
       }
-      </ul>
+      </ol>
     </div>
   )
 }
