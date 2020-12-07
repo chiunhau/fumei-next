@@ -31,14 +31,14 @@ function TemplateExport(props) {
       <h3>{getTemplateName()}</h3>
       <p>備註：{getTemplateNote()}</p>
       <p>桌號：{getTemplateTableNum()}</p>
-      <ol>
+      <ul>
       {
         flattenDishes()
           .map((d, i) => (
-            <li key={`${d.id}_${d.i}`}> {getDishName(d)}</li>
+            <li key={`${d.id}_${i}`}>{i + 1}. {getDishName(d)}</li>
           )) 
       }
-      </ol>
+      </ul>
     </div>
   )
 }

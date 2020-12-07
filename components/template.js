@@ -261,9 +261,13 @@ function Template(props) {
               categoryID={choicesDrawer.categoryID}
               categoryName={props.allCategories[choicesDrawer.categoryID].name}
               categoryDishes={getOptions(choicesDrawer.categoryID)}
+              C01SizesDishes={getOptions('-C01-SIZES')}
               C01OptionsDishes={getOptions('-C01-OPTIONS')}
+              C02MainDishes={getOptions('-C02')}
+              C02OptionsDishes={getOptions('-C01-OPTIONS')}
               C07OptionsDishes={getOptions('-C07-OPTIONS')}
               C07MethodsDishes={getOptions('-C07-METHODS')}
+              C10OptionsDishes={getOptions('-C10-OPTIONS')}
               addDish={addDish}
               addDishWithCustomName={addDishWithCustomName}
               replaceDish={replaceDish}
@@ -273,7 +277,7 @@ function Template(props) {
             />
           }
         </ul>
-        <div class="alert alert-success template-bottom-summary d-block d-sm-none" role="alert">
+        <div className="alert alert-success template-bottom-summary d-block d-sm-none" role="alert">
           已選擇 <span className="highlight">{calculateCounts()}</span> 道菜，約 <span className="highlight">{calculateSum()} 元</span>&nbsp;
         </div>
         {

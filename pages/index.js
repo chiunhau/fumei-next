@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Header from '../components/header';
 import Head from 'next/head'
+import CommonTemplate from '../components/commonTemplate';
 
 import * as R from 'ramda';
 
@@ -22,14 +23,21 @@ function Manage(props) {
   }
   return (
     <div className="">
-      {/* <Head>
-        <title>富美配菜系統</title>
-      </Head> */}
       <Header/>
-      <div className="page-manage">
+      <div className="page-index">
       {
         props.templates &&
         <div className="container">
+          <h4>建立新菜單</h4>
+          <div className="common-templates">
+            <CommonTemplate title="空白菜單" cta="建立" bgColor="#ddd"/>
+            <CommonTemplate title="4000元" cta="使用範本" bgColor="#ffd166"/>
+            <CommonTemplate title="5000元" cta="使用範本" bgColor="#06d6a0"/>
+            <CommonTemplate title="6000元" cta="使用範本" bgColor="#118ab2" color="#fff"/>
+            <CommonTemplate title="7000元" cta="使用範本" bgColor="#ef476f" color="#fff"/>
+            <CommonTemplate title="8000元" cta="使用範本" bgColor="#073b4c" color="#fff"/>
+          </div>
+          <h4>所有菜單</h4>
           {
             Object.keys(props.templates).map((key, i) => {
               const template = props.templates[key];
