@@ -28,7 +28,7 @@ function Manage(props) {
       {
         props.templates &&
         <div className="container">
-          <h4>建立新菜單</h4>
+          {/* <h4>建立新菜單</h4>
           <div className="common-templates">
             <CommonTemplate title="空白菜單" cta="建立" bgColor="#ddd"/>
             <CommonTemplate title="4000元" cta="使用範本" bgColor="#ffd166"/>
@@ -37,6 +37,7 @@ function Manage(props) {
             <CommonTemplate title="7000元" cta="使用範本" bgColor="#ef476f" color="#fff"/>
             <CommonTemplate title="8000元" cta="使用範本" bgColor="#073b4c" color="#fff"/>
           </div>
+          <Link href="/create-common-template"><a>建立新範本</a></Link> */}
           <h4>所有菜單</h4>
           {
             Object.keys(props.templates).map((key, i) => {
